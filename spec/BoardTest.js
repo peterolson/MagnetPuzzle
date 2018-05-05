@@ -22,6 +22,7 @@ describe("Board", () => {
 
     it("has a string representation", () => {
         expect(smallBoard.stringRepresentation).toEqual("B  S  S BH  ");
+        expect("" + smallBoard).toEqual("B  S  S BH  ");
     });
 
     it("can find the piece at a given (i, j) coordinate", () => {

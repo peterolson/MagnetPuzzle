@@ -83,7 +83,7 @@ class Board {
         return possibleBoards;
     }
 
-    public getAllMoves(i,j) {
+    public getAllMoves() {
         let possibleBoards : Board[] = [];
         for(let i = 0; i < this.height; i++) {
             for(let j = 0; j < this.width; j++) {
@@ -95,5 +95,9 @@ class Board {
 
     public isVictory() {
         return this.stringRepresentation.indexOf("S") < 0;
+    }
+
+    public toString() {
+        return this.stringRepresentation;
     }
 }
