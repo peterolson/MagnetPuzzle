@@ -28,14 +28,15 @@ class Board {
             let ip = i + di, jp = j + dj;
             let currentSquare = this.getPieceAt(ip, jp);
             let nextSquare;
-            while (nextSquare = this.getPieceAt(ip + di, jp + dj)) {
+            while (currentSquare) {
                 if (currentSquare !== " ") {
                     if (pieceType === "S" && currentSquare === "H") {
                         moves.push([ip, jp]);
                     }
                     break;
                 }
-                if (nextSquare !== " ") {
+                nextSquare = this.getPieceAt(ip + di, jp + dj);
+                if (nextSquare && nextSquare !== " ") {
                     if (pieceType === "S" && nextSquare === "H") {
                         moves.push([ip + di, jp + dj]);
                     } else {

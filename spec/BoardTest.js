@@ -15,6 +15,11 @@ describe("Board", () => {
         "BBH",
         " H "
     ]);
+    let almostVictory = new Board([
+        "BS",
+        "BH"
+    ]);
+
     it("has height and width properties", () => {
         expect(smallBoard.height).toEqual(3);
         expect(smallBoard.width).toEqual(4);
@@ -130,11 +135,16 @@ describe("Board", () => {
         let allMoves = smallBoard.getAllMoves().map(x => x.stringRepresentation);
         expect(allMoves.length).toEqual(4);
         expect(allMoves).toEqual(jasmine.arrayContaining(possibleBoards));
+
+        expect(almostVictory.getAllMoves().length).toEqual(1);
+        
     });
 
     it("detects victory", () => {
         expect(smallBoard.isVictory()).toEqual(false);
         expect(mediumBoard.isVictory()).toEqual(false);
         expect(solvedBoard.isVictory()).toEqual(true);
+
+        expect(almostVictory.getAllMoves()[0].isVictory()).toEqual(true);
     });
 });
