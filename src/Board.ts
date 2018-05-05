@@ -92,4 +92,8 @@ class Board {
         }
         return possibleBoards;
     }
+
+    public isVictory() {
+        return this.stringRepresentation.indexOf("S") < 0;
+    }
 }
