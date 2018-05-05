@@ -11,13 +11,13 @@ class Board {
         this.width = pieceMap[0].length;
     }
 
-    public pieceAt(i, j) {
+    public getPieceAt(i, j) {
         if (i < 0 || i >= this.height) return;
         return this.pieceMap[i][j];
     }
 
-    public movesAt(i, j) {
-        let pieceType = this.pieceAt(i, j);
+    public getMovesFrom(i, j) {
+        let pieceType = this.getPieceAt(i, j);
         // blank spaces and homes cannot move
         if (pieceType === " " || pieceType === "H") return [];
 
@@ -26,9 +26,9 @@ class Board {
         let directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
         for (let [di, dj] of directions) {
             let ip = i + di, jp = j + dj;
-            let currentSquare = this.pieceAt(ip, jp);
+            let currentSquare = this.getPieceAt(ip, jp);
             let nextSquare;
-            while (nextSquare = this.pieceAt(ip + di, jp + dj)) {
+            while (nextSquare = this.getPieceAt(ip + di, jp + dj)) {
                 if (currentSquare !== " ") {
                     if (pieceType === "S" && currentSquare === "H") {
                         moves.push([ip, jp]);
@@ -50,5 +50,46 @@ class Board {
         }
 
         return moves;
+    }
+
+    private cloneMap() {
+        return this.pieceMap.slice().map(x => x.slice());
+    }
+
+    public move(i, j, destination) {
+        let mapCopy = this.cloneMap();
+        let fromType = mapCopy[i][j];
+        mapCopy[i][j] = " ";
+        let [id, jd] = destination;
+        let destinationType = mapCopy[id][jd];
+        if (destinationType === " ") {
+            mapCopy[id][jd] = fromType;
+        }
+        return new Board(mapCopy.map(x => x.join("")));
+    }
+
+    public getBoardsFromMoving(i, j) {
+        let destinations = this.getMovesFrom(i, j);
+        let possibleBoards : Board[] = [];
+        let encounteredBoards = {};
+        for (let destination of destinations) {
+            let newBoard = this.move(i, j, destination);
+            let stringRepresentation = newBoard.stringRepresentation;
+            if(!encounteredBoards[stringRepresentation]) {
+                possibleBoards.push(newBoard);
+                encounteredBoards[stringRepresentation] = true;
+            }
+        }
+        return possibleBoards;
+    }
+
+    public getAllMoves(i,j) {
+        let possibleBoards : Board[] = [];
+        for(let i = 0; i < this.height; i++) {
+            for(let j = 0; j < this.width; j++) {
+                possibleBoards = possibleBoards.concat(this.getBoardsFromMoving(i,j));
+            }
+        }
+        return possibleBoards;
     }
 }
