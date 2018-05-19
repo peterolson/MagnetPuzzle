@@ -1,32 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import BoardView from './components/BoardView';
-import Board from './lib/Board';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import GameView from './components/GameView';
 
-let mediumBoard = new Board([
-  "B B H",
-  "     ",
-  "H S S",
-  "     ",
-  "S H B"
-]);
 
 export default class App extends React.Component {
 
   render() {
     return (
       <View style={styles.container}>
-        <BoardView board={mediumBoard} />
-        <Text>What's up</Text>
+        <View style={{height: StatusBar.currentHeight }}></View>
+        <GameView />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+  container: {}
 });

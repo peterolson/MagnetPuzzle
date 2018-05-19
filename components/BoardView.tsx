@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import SquareView from './SquareView';
+import ActionPanel from './ActionPanel';
 import Board, { PieceType, Coord } from './../lib/Board';
 
 function times(n: number, fn: (i: number) => any) {
@@ -15,7 +16,9 @@ interface BoardViewProperties { board: Board }
 interface BoardViewState {
     activeSquare: Coord,
     possibleMoves: Coord[],
-    board: Board
+    board: Board,
+    history: Board[],
+    moveCount: number
 }
 
 export default class BoardView extends React.Component<BoardViewProperties, BoardViewState> {
@@ -25,7 +28,9 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         this.state = {
             activeSquare: [-1, -1],
             possibleMoves: [],
-            board: props.board
+            board: props.board,
+            history: [props.board],
+            moveCount: 0
         }
     }
 
@@ -52,6 +57,8 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
     moveTo(pieceType: PieceType, i: number, j: number) {
         let [fromi, fromj] = this.state.activeSquare;
         let board = this.state.board.move(fromi, fromj, [i, j]);
+        let history = this.state.history.concat(board);
+        let moveCount = this.state.moveCount + 1;
         let activeSquare: Coord = [-1, -1];
         let possibleMoves: Coord[] = [];
         if (pieceType !== PieceType.Home) {
@@ -63,7 +70,9 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         this.setState({
             board,
             activeSquare,
-            possibleMoves
+            possibleMoves,
+            history,
+            moveCount
         });
     }
 
@@ -86,11 +95,31 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         return false;
     }
 
+    undo() {
+        let history = this.state.history.slice(0, -1);
+        if (history.length > 0) {
+            let board = history[history.length - 1];
+            let moveCount = this.state.moveCount - 1;
+            this.setState({ history, board, moveCount });
+            this.deselect();
+        }
+    }
+
+    reset() {
+        let board = this.state.history[0];
+        let history = [board];
+        let moveCount = 0;
+        this.setState({ history, board, moveCount });
+        this.deselect();
+    }
+
     render() {
+        const { height, width } = Dimensions.get('window');
+        const isPortrait = height > width;
+
         const board = this.state.board;
         const rows = board.height;
         const columns = board.width;
-        const { height, width } = Dimensions.get('window');
         const maxHeight = height / rows;
         const maxWidth = width / columns;
         const squareWidth = Math.floor(Math.min(maxHeight, maxWidth));
@@ -114,6 +143,11 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
                         </View>
                     )
                 }
+                <ActionPanel 
+                    moveCount={this.state.moveCount}
+                    isHorizontal={isPortrait}
+                    onUndo={this.undo.bind(this)}
+                    onReset={this.reset.bind(this)}  />
             </View>
         </View>
     }
@@ -121,10 +155,10 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column',
-        flex: 1
+        flexDirection: 'column'
     },
     row: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: "center"
     }
 });
