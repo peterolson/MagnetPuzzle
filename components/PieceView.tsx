@@ -16,6 +16,6 @@ export default class PieceView extends React.Component<{pieceType: string}> {
             style={{
                 width: "100%",
                 height: "100%"
-            }}/>
+            }} />
     }
 }

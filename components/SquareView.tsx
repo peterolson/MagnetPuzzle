@@ -2,21 +2,32 @@ import React from 'react';
 import { View } from 'react-native';
 import PieceView from './PieceView';
 
-export default class SquareView extends React.Component<{width: number, isRight: boolean, isBottom: boolean, pieceType: string}> {
+interface SquareViewProps {
+    width: number, 
+    isRight: boolean, 
+    isBottom: boolean, 
+    pieceType: string,
+    isActive: boolean,
+    isPossibleMove: boolean,
+    onTap: () => void
+}
+
+export default class SquareView extends React.Component<SquareViewProps> {
     render() {
-        const {width, isRight, isBottom, pieceType} = this.props;
-        return (<View style={{
-            borderStyle: 'solid',
-            borderWidth: 1,
-            borderColor: 'black',
-            borderTopWidth: 1,
-            borderLeftWidth: 1,
-            borderRightWidth: isRight ? 1 : 0,
-            borderBottomWidth: isBottom ? 1 : 0,
-            width,
-            height: width
-        }}>
+        const {width, isRight, isBottom, pieceType, isActive, isPossibleMove, onTap} = this.props;
+        return <View style={{
+                borderWidth: 1,
+                borderColor: 'gray',
+                borderTopWidth: 1,
+                borderLeftWidth: 1,
+                borderRightWidth: isRight ? 1 : 0,
+                borderBottomWidth: isBottom ? 1 : 0,
+                backgroundColor: isActive ? 'blue' : isPossibleMove ? 'yellow' : 'white',
+                width,
+                height: width
+            }}
+            onTouchStart={onTap}>
             <PieceView pieceType={pieceType} />
-        </View>);
+        </View>;
     }
 }
