@@ -1,25 +1,27 @@
-describe("Board", () => {
-    let smallBoard = new Board([
-        "B  S",
-        "  S ",
-        "BH  "
-    ]);
-    let mediumBoard = new Board([
-        "B B H",
-        "     ",
-        "H S S",
-        "     ",
-        "S H B"
-    ]);
-    let solvedBoard = new Board([
-        "BBH",
-        " H "
-    ]);
-    let almostVictory = new Board([
-        "BS",
-        "BH"
-    ]);
+import Board from "./../lib/Board";
 
+let smallBoard = new Board([
+    "B  S",
+    "  S ",
+    "BH  "
+]);
+let mediumBoard = new Board([
+    "B B H",
+    "     ",
+    "H S S",
+    "     ",
+    "S H B"
+]);
+let solvedBoard = new Board([
+    "BBH",
+    " H "
+]);
+let almostVictory = new Board([
+    "BS",
+    "BH"
+]);
+
+describe("Board", () => {
     it("has height and width properties", () => {
         expect(smallBoard.height).toEqual(3);
         expect(smallBoard.width).toEqual(4);
@@ -43,7 +45,7 @@ describe("Board", () => {
 
         let topLeftMoves = smallBoard.getMovesFrom(0, 0);
         expect(topLeftMoves.length).toEqual(2);
-        expect(topLeftMoves).toEqual(jasmine.arrayContaining([[0, 2], [1, 0]]));
+        expect(topLeftMoves).toEqual(expect.arrayContaining([[0, 2], [1, 0]]));
 
         let bottomLeftMoves = smallBoard.getMovesFrom(2, 0);
         expect(bottomLeftMoves).toEqual([[1, 0]]);
@@ -56,11 +58,11 @@ describe("Board", () => {
 
         middleMoves = mediumBoard.getMovesFrom(2, 2);
         expect(middleMoves.length).toEqual(4);
-        expect(middleMoves).toEqual(jasmine.arrayContaining([[1, 2], [2, 0], [2, 3], [4, 2]]));
+        expect(middleMoves).toEqual(expect.arrayContaining([[1, 2], [2, 0], [2, 3], [4, 2]]));
 
         let bottomRightMoves = mediumBoard.getMovesFrom(4, 4);
         expect(bottomRightMoves.length).toEqual(2);
-        expect(bottomRightMoves).toEqual(jasmine.arrayContaining([[4, 3], [3, 4]]));
+        expect(bottomRightMoves).toEqual(expect.arrayContaining([[4, 3], [3, 4]]));
     });
 
     it("can perform moves from (i,j) to another spot", () => {
@@ -110,7 +112,7 @@ describe("Board", () => {
 
         let boards = mediumBoard.getBoardsFromMoving(2, 2).map(x => x.stringRepresentation);
         expect(boards.length).toEqual(3);
-        expect(boards).toEqual(jasmine.arrayContaining(possibleBoards));
+        expect(boards).toEqual(expect.arrayContaining(possibleBoards));
     });
 
     it("can get all possible moves", () => {

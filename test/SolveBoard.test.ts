@@ -1,5 +1,8 @@
+import Board from "./../lib/Board";
+import solveBoard from "./../lib/SolveBoard";
+
 describe("Solver", () => {
-    let boards = {
+    let boards : {[key: string] : Board} = {
         easy1: new Board([
             "B  ",
             "  B",
@@ -88,7 +91,7 @@ describe("Solver", () => {
             "B    B  "
         ])
     };
-    let solutionLengths = {
+    let solutionLengths : {[key: string] : number} = {
         easy1: 4,
         easy2: 5,
         mod1: 6,
@@ -107,7 +110,7 @@ describe("Solver", () => {
     describe("finds solutions in the right number of moves", () => {
         for (let boardName in boards) {
             it("for " + boardName, () => {
-                expect(solve(boards[boardName]).length).toEqual(solutionLengths[boardName]);
+                expect(solveBoard(boards[boardName])!.length).toEqual(solutionLengths[boardName]);
             });
         }
     });

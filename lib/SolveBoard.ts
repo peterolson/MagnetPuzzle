@@ -1,3 +1,5 @@
+import Board from "./Board";
+
 class Move {
     public readonly history: Board[];
     public readonly board: Board;
@@ -15,7 +17,7 @@ class Move {
         return this.board.isVictory();
     }
 
-    public getAllMoves(encounteredMoves) {
+    public getAllMoves(encounteredMoves : {[key: string] : boolean}) {
         return this.board.getAllMoves()
             .filter(x => !encounteredMoves[x.stringRepresentation])
             .map(x => {
@@ -25,20 +27,20 @@ class Move {
     }
 }
 
-function solve(board: Board) {
+export default function solveBoard(board: Board) {
 
     let movesQueue = [new Move(board)];
-    let encounteredMoves = {};
+    let encounteredMoves : {[key: string] : boolean} = {};
     encounteredMoves[board.stringRepresentation] = true;
 
     while (movesQueue.length) {
         let move = movesQueue.shift();
 
-        if (move.isVictory()) {
-            return move.history;
+        if (move!.isVictory()) {
+            return move!.history;
         }
 
-        movesQueue = movesQueue.concat(move.getAllMoves(encounteredMoves));
+        movesQueue = movesQueue.concat(move!.getAllMoves(encounteredMoves));
     }
 
     return null;

@@ -1,4 +1,4 @@
-class Board {
+export default class Board {
     public readonly width: number;
     public readonly height: number;
     public readonly stringRepresentation: string;
@@ -11,17 +11,17 @@ class Board {
         this.width = pieceMap[0].length;
     }
 
-    public getPieceAt(i, j) {
+    public getPieceAt(i : number, j : number) {
         if (i < 0 || i >= this.height) return;
         return this.pieceMap[i][j];
     }
 
-    public getMovesFrom(i, j) {
+    public getMovesFrom(i : number, j : number) {
         let pieceType = this.getPieceAt(i, j);
         // blank spaces and homes cannot move
         if (pieceType === " " || pieceType === "H") return [];
 
-        let moves = [];
+        let moves : [number, number][] = [];
 
         let directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
         for (let [di, dj] of directions) {
@@ -57,7 +57,7 @@ class Board {
         return this.pieceMap.slice().map(x => x.slice());
     }
 
-    public move(i, j, destination) {
+    public move(i : number, j : number, destination: [number, number]) {
         let mapCopy = this.cloneMap();
         let fromType = mapCopy[i][j];
         mapCopy[i][j] = " ";
@@ -69,10 +69,10 @@ class Board {
         return new Board(mapCopy.map(x => x.join("")));
     }
 
-    public getBoardsFromMoving(i, j) {
+    public getBoardsFromMoving(i : number, j : number) {
         let destinations = this.getMovesFrom(i, j);
         let possibleBoards : Board[] = [];
-        let encounteredBoards = {};
+        let encounteredBoards : {[key: string]: boolean} = {};
         for (let destination of destinations) {
             let newBoard = this.move(i, j, destination);
             let stringRepresentation = newBoard.stringRepresentation;
