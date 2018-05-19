@@ -104,6 +104,16 @@ export default class Board {
         return possibleBoards;
     }
 
+    public transpose() {
+        let newPieceMap = this.pieceMap[0].map(x => new Array(this.height));
+        for(let i = 0; i < this.height; i++) {
+            for(let j = 0; j < this.width; j++) {
+                newPieceMap[j][i] = this.pieceMap[i][j];
+            }
+        }
+        return new Board(newPieceMap.map(x => x.join("")));
+    }
+
     public isVictory() {
         return this.stringRepresentation.indexOf(PieceType.Start) < 0;
     }

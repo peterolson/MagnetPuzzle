@@ -149,4 +149,13 @@ describe("Board", () => {
 
         expect(almostVictory.getAllMoves()[0].isVictory()).toEqual(true);
     });
+
+    it("can transpose", () => {
+        let transposedSolvedBoard = new Board([
+            "B ",
+            "BH",
+            "H "
+        ]);
+        expect(solvedBoard.transpose().stringRepresentation).toEqual(transposedSolvedBoard.stringRepresentation);
+    });
 });
