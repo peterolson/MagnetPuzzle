@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import PieceView from './PieceView';
 
 export default class SquareView extends React.Component<{width: number, isRight: boolean, isBottom: boolean, pieceType: string}> {
     render() {
@@ -15,7 +16,7 @@ export default class SquareView extends React.Component<{width: number, isRight:
             width,
             height: width
         }}>
-            <Text>{pieceType}</Text>
+            <PieceView pieceType={pieceType} />
         </View>);
     }
 }
