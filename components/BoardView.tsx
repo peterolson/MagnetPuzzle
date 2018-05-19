@@ -1,12 +1,21 @@
 import React from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import SquareView from './SquareView';
+import Board from './../lib/Board';
 
-export default class BoardView extends React.Component {
+function times(n : number, fn : (i : number) => any) {
+    let arr = new Array(n);
+    for(let i = 0; i < arr.length; i++) {
+        arr[i] = fn(i);
+    }
+    return arr;
+}
+
+export default class BoardView extends React.Component<{board: Board}> {
     render() {
-        const board = [[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [1, 1, 1, 1, 1]];
-        const rows = board.length;
-        const columns = board[0].length;
+        const {board} = this.props;
+        const rows = board.height;
+        const columns = board.width;
         const {height, width} = Dimensions.get('window');
         const maxHeight = height / rows;
         const maxWidth = width / columns;
@@ -14,14 +23,15 @@ export default class BoardView extends React.Component {
         return <View>
             <View style={styles.container}>
             {
-                board.map((row, i) =>
+                times(rows, i => 
                     <View style={styles.row} key={'row' + i}>
                     {
-                        row.map((square, j) => 
+                        times(columns, j => 
                             <SquareView key={'square' + i + '_' + j} 
                                 width={squareWidth} 
                                 isBottom={i === rows - 1} 
-                                isRight={j === columns - 1} />
+                                isRight={j === columns - 1}
+                                pieceType={board.getPieceAt(i, j)} />
                         )
                     }
                     </View>

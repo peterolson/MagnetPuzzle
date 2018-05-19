@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default class SquareView extends React.Component<{width: number, isRight: boolean, isBottom: boolean}> {
+export default class SquareView extends React.Component<{width: number, isRight: boolean, isBottom: boolean, pieceType: string}> {
     render() {
-        const {width, isRight, isBottom} = this.props;
+        const {width, isRight, isBottom, pieceType} = this.props;
         return (<View style={{
             borderStyle: 'solid',
             borderWidth: 1,
@@ -15,7 +15,7 @@ export default class SquareView extends React.Component<{width: number, isRight:
             width,
             height: width
         }}>
-            <Text>abc</Text>
+            <Text>{pieceType}</Text>
         </View>);
     }
 }

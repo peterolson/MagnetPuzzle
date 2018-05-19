@@ -12,7 +12,7 @@ export default class Board {
     }
 
     public getPieceAt(i : number, j : number) {
-        if (i < 0 || i >= this.height) return;
+        if (i < 0 || i >= this.height) return "";
         return this.pieceMap[i][j];
     }
 
