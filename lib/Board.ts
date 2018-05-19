@@ -1,27 +1,37 @@
+export enum PieceType {
+    Home = "H",
+    Start = "S",
+    Block = "B",
+    Blank = " ",
+    Undefined = ""
+}
+
+export type Coord = [number, number]
+
 export default class Board {
     public readonly width: number;
     public readonly height: number;
     public readonly stringRepresentation: string;
-    private pieceMap: string[][];
+    private pieceMap: PieceType[][];
 
     public constructor(pieceMap: string[]) {
         this.stringRepresentation = pieceMap.join("");
-        this.pieceMap = pieceMap.map(x => x.split(""));
+        this.pieceMap = pieceMap.map(x => <PieceType[]>x.split(""));
         this.height = pieceMap.length;
         this.width = pieceMap[0].length;
     }
 
-    public getPieceAt(i : number, j : number) {
-        if (i < 0 || i >= this.height) return "";
+    public getPieceAt(i: number, j: number) {
+        if (i < 0 || i >= this.height) return PieceType.Undefined;
         return this.pieceMap[i][j];
     }
 
-    public getMovesFrom(i : number, j : number) {
+    public getMovesFrom(i: number, j: number) {
         let pieceType = this.getPieceAt(i, j);
         // blank spaces and homes cannot move
-        if (pieceType === " " || pieceType === "H") return [];
+        if (pieceType === " " || pieceType === PieceType.Home) return [];
 
-        let moves : [number, number][] = [];
+        let moves: Coord[] = [];
 
         let directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
         for (let [di, dj] of directions) {
@@ -30,14 +40,14 @@ export default class Board {
             let nextSquare;
             while (currentSquare) {
                 if (currentSquare !== " ") {
-                    if (pieceType === "S" && currentSquare === "H") {
+                    if (pieceType === PieceType.Start && currentSquare === PieceType.Home) {
                         moves.push([ip, jp]);
                     }
                     break;
                 }
                 nextSquare = this.getPieceAt(ip + di, jp + dj);
                 if (nextSquare && nextSquare !== " ") {
-                    if (pieceType === "S" && nextSquare === "H") {
+                    if (pieceType === PieceType.Start && nextSquare === PieceType.Home) {
                         moves.push([ip + di, jp + dj]);
                     } else {
                         moves.push([ip, jp]);
@@ -57,26 +67,26 @@ export default class Board {
         return this.pieceMap.slice().map(x => x.slice());
     }
 
-    public move(i : number, j : number, destination: [number, number]) {
+    public move(i: number, j: number, destination: Coord) {
         let mapCopy = this.cloneMap();
         let fromType = mapCopy[i][j];
-        mapCopy[i][j] = " ";
+        mapCopy[i][j] = PieceType.Blank;
         let [id, jd] = destination;
         let destinationType = mapCopy[id][jd];
-        if (destinationType === " ") {
+        if (destinationType === PieceType.Blank) {
             mapCopy[id][jd] = fromType;
         }
         return new Board(mapCopy.map(x => x.join("")));
     }
 
-    public getBoardsFromMoving(i : number, j : number) {
+    public getBoardsFromMoving(i: number, j: number) {
         let destinations = this.getMovesFrom(i, j);
-        let possibleBoards : Board[] = [];
-        let encounteredBoards : {[key: string]: boolean} = {};
+        let possibleBoards: Board[] = [];
+        let encounteredBoards: { [key: string]: boolean } = {};
         for (let destination of destinations) {
             let newBoard = this.move(i, j, destination);
             let stringRepresentation = newBoard.stringRepresentation;
-            if(!encounteredBoards[stringRepresentation]) {
+            if (!encounteredBoards[stringRepresentation]) {
                 possibleBoards.push(newBoard);
                 encounteredBoards[stringRepresentation] = true;
             }
@@ -85,17 +95,17 @@ export default class Board {
     }
 
     public getAllMoves() {
-        let possibleBoards : Board[] = [];
-        for(let i = 0; i < this.height; i++) {
-            for(let j = 0; j < this.width; j++) {
-                possibleBoards = possibleBoards.concat(this.getBoardsFromMoving(i,j));
+        let possibleBoards: Board[] = [];
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                possibleBoards = possibleBoards.concat(this.getBoardsFromMoving(i, j));
             }
         }
         return possibleBoards;
     }
 
     public isVictory() {
-        return this.stringRepresentation.indexOf("S") < 0;
+        return this.stringRepresentation.indexOf(PieceType.Start) < 0;
     }
 
     public toString() {

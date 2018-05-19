@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import SquareView from './SquareView';
-import Board from './../lib/Board';
+import Board, { PieceType, Coord } from './../lib/Board';
 
 function times(n: number, fn: (i: number) => any) {
     let arr = new Array(n);
@@ -13,8 +13,8 @@ function times(n: number, fn: (i: number) => any) {
 
 interface BoardViewProperties { board: Board }
 interface BoardViewState {
-    activeSquare: [number, number],
-    possibleMoves: [number, number][],
+    activeSquare: Coord,
+    possibleMoves: Coord[],
     board: Board
 }
 
@@ -31,29 +31,15 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
 
     onTapSquare(i: number, j: number) {
         let pieceType = this.state.board.getPieceAt(i, j);
-        if(this.isActive(i, j)) {
+        if (this.isActive(i, j)) {
             this.deselect();
             return;
         }
-        if(this.isPossibleMove(i, j)) {
-            let [fromi, fromj] = this.state.activeSquare;
-            let board = this.state.board.move(fromi, fromj, [i, j]);
-            let activeSquare : [number, number] = [-1, -1];
-            let possibleMoves : [number, number][] = [];
-            if(pieceType !== "H") {
-                possibleMoves = board.getMovesFrom(i, j);
-                if(possibleMoves.length) {
-                    activeSquare = [i, j];
-                }
-            }
-            this.setState({
-                board,
-                activeSquare,
-                possibleMoves
-            });
+        if (this.isPossibleMove(i, j)) {
+            this.moveTo(pieceType, i, j);
             return;
         }
-        if (pieceType === "S" || pieceType === "B") {
+        if (pieceType === PieceType.Start || pieceType === PieceType.Block) {
             this.setState({
                 activeSquare: [i, j],
                 possibleMoves: this.state.board.getMovesFrom(i, j)
@@ -61,6 +47,24 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             return;
         }
         this.deselect();
+    }
+
+    moveTo(pieceType: PieceType, i: number, j: number) {
+        let [fromi, fromj] = this.state.activeSquare;
+        let board = this.state.board.move(fromi, fromj, [i, j]);
+        let activeSquare: Coord = [-1, -1];
+        let possibleMoves: Coord[] = [];
+        if (pieceType !== PieceType.Home) {
+            possibleMoves = board.getMovesFrom(i, j);
+            if (possibleMoves.length) {
+                activeSquare = [i, j];
+            }
+        }
+        this.setState({
+            board,
+            activeSquare,
+            possibleMoves
+        });
     }
 
     deselect() {
