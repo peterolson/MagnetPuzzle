@@ -12,7 +12,8 @@ export interface GameParams {
     puzzle: Puzzle,
     nextPuzzle: Puzzle,
     i: number,
-    puzzles: Puzzle[]
+    puzzles: Puzzle[],
+    onSolve: () => void
 }
 
 export default class GameView extends React.Component<GameViewProps> {

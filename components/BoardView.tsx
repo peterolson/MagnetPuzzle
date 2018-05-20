@@ -6,6 +6,7 @@ import VictoryModal from './VictoryModal';
 import Board, { PieceType, Coord } from './../lib/Board';
 import { Puzzle } from './../lib/Puzzles';
 import { GameParams } from './GameView';
+import {StarType, addSolution, getStarType} from './../lib/SolutionStore';
 
 function times(n: number, fn: (i: number) => any) {
     let arr = new Array(n);
@@ -84,6 +85,15 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             moveCount
         });
         if (board.isVictory()) {
+            let gameParams = this.props.gameParams;
+            let bestMoveCount = gameParams.puzzle.moves;
+            addSolution(gameParams.puzzle, {
+                moveCount,
+                bestMoveCount,
+                time: new Date(),
+                starType: getStarType(moveCount, bestMoveCount)
+            });
+            gameParams.onSolve();
             this.showVictoryModal();
         }
     }

@@ -19,7 +19,8 @@ let puzzles : PuzzleList = {
                 "   ",
                 " H "
             ]),
-            moves: 1
+            moves: 1,
+            name: "Moving Home"
         }
     ],
     easy: [

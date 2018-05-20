@@ -52,3 +52,9 @@ export function addSolution(puzzle : Puzzle, solution : Solution) {
         AsyncStorage.setItem(key, JSON.stringify(solution));
     }
 }
+
+export function getStarType(moveCount : number, bestMoveCount : number) {
+    if(moveCount <= bestMoveCount) return StarType.Gold;
+    if(moveCount <= bestMoveCount * 7 / 6 || moveCount === bestMoveCount + 1) return StarType.Silver;
+    return StarType.Bronze;
+}

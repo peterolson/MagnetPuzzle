@@ -20,16 +20,29 @@ function getStarImages(starType: StarType | undefined): any {
   if (starType === StarType.Bronze) return <Image source={images.bronze} />
 }
 
-function moves(n : any) {
+function moves(n: any) {
   return n === 1 ? "1 move" : n + " moves";
 }
 
-export default class PuzzleList extends React.Component<{ navigation: any }> {
+interface PuzzleListProps { navigation: any }
+
+export default class PuzzleList extends React.Component<PuzzleListProps> {
   static navigationOptions = ({ navigation }: any) => {
     return {
       title: navigation.state.params.title
     }
   };
+
+  constructor(props: PuzzleListProps) {
+    super(props);
+    this.state = {
+      lastUpdated: new Date()
+    }
+  }
+
+  update() {
+    this.setState({ lastUpdated: new Date() });
+  }
 
   render() {
     const { navigation } = this.props;
@@ -47,12 +60,13 @@ export default class PuzzleList extends React.Component<{ navigation: any }> {
             return <ListItem key={i}
               title={<View style={{ flexDirection: "row" }}>
                 <Text style={{ fontSize: 18, fontWeight: "bold" }}>{puzzle.name}</Text>
-                <View style={{ position: "absolute", right: 5, top: "50%", flexDirection: "row" }}>
+                <View style={{ position: "absolute", right: 0, top: "50%", flexDirection: "row" }}>
                   {getStarImages(solution.starType)}
                 </View>
               </View>}
               subtitle={isSolved ? `You solved in ${moves(solution.moveCount)}. ` + (isBest ? "" : `Can be solved in ${moves(solution.bestMoveCount)}.`) : "Not solved yet."}
-              onPress={() => this.props.navigation.push("GameView", { groupTitle: title, puzzle, nextPuzzle, i, puzzles })} />
+              subtitleStyle={{fontSize: 13}}
+              onPress={() => this.props.navigation.push("GameView", { groupTitle: title, puzzle, nextPuzzle, i, puzzles, onSolve: () => this.update() })} />
           })
         }
       </ScrollView>

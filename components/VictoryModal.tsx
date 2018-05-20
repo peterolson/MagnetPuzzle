@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import {Puzzle} from './../lib/Puzzles';
-import {StarType, addSolution} from './../lib/SolutionStore';
+import {StarType, addSolution, getStarType} from './../lib/SolutionStore';
 import { GameParams } from './GameView';
 
 const images = {
@@ -24,16 +24,8 @@ interface VictoryModalProps {
 }
 
 export default class VictoryModal extends React.Component<VictoryModalProps> {
-    getStarType() {
-        let moveCount = this.props.moveCount;
-        let bestMoveCount = this.props.gameParams.puzzle.moves;
-        if(moveCount <= bestMoveCount) return StarType.Gold;
-        if(moveCount <= bestMoveCount * 7 / 6 || moveCount === bestMoveCount + 1) return StarType.Silver;
-        return StarType.Bronze;
-    }
-
-    getStarImages() {
-        let starType = this.getStarType();
+    getStarImages(moveCount : number, bestMoveCount : number) {
+        let starType = getStarType(moveCount, bestMoveCount);
         if(starType === StarType.Gold) {
             return [<Image source={images.gold} key="g1" />,
                 <Image source={images.gold} key="g2" />,
@@ -50,14 +42,6 @@ export default class VictoryModal extends React.Component<VictoryModalProps> {
         const { isVisible, hide, gameParams, moveCount, goBack, goNextPuzzle } = this.props;
         let name = String(gameParams.puzzle.name);
         let bestMoveCount = gameParams.puzzle.moves;
-        if(isVisible) {
-            addSolution(gameParams.puzzle, {
-                moveCount,
-                bestMoveCount,
-                time: new Date(),
-                starType: this.getStarType()
-            });
-        }
         return (
             <Modal isVisible={isVisible} scrollOffset={0} style={modalStyle} >
                 <Text style={{ fontSize: 28, marginBottom: 5 }}>Congratulations!</Text>
@@ -66,7 +50,7 @@ export default class VictoryModal extends React.Component<VictoryModalProps> {
                 <Text style={subtitle}> in </Text>
                 <Text style={[bold, subtitle]}>{moveCount} {moveCount === 1 ? "move" : "moves"}</Text>
                 <View style={{ flexDirection: "row" }}>
-                    {this.getStarImages()}
+                    {this.getStarImages(moveCount, bestMoveCount)}
                 </View>
                 <Text>{moveCount <= bestMoveCount ? "You found the shortest solution!" : `This puzzle can be solved in ${bestMoveCount} moves.`}</Text>
                 <View style={{ flexDirection: "row" }}>
