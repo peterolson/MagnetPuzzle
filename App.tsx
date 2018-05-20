@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar, Image } from 'react-native';
 import PuzzleList from './components/PuzzleList';
+import GameView from './components/GameView';
 import { Button } from 'react-native-elements';
 let {createStackNavigator} = require('react-navigation');
 
@@ -32,12 +33,6 @@ class HomeScreen extends React.Component<{navigation: any}> {
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "hard", title: titles.hard})} />
       </View>
     );
-    /*return (
-      <View style={styles.container}>
-        <View style={{height: StatusBar.currentHeight }}></View>
-        <GameView />
-      </View>
-    );*/
   }
 }
 
@@ -52,7 +47,8 @@ const styles = StyleSheet.create({
 
 const RootStack = createStackNavigator({
   Home: HomeScreen,
-  PuzzleList: PuzzleList
+  PuzzleList: PuzzleList,
+  GameView: GameView
 },
 {
   initialRouteName: 'Home',

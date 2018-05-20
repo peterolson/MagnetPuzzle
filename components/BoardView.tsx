@@ -128,10 +128,10 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
 
         let maxHeight, maxWidth;
         if(isPortrait) {
-            maxHeight = (height - 100) / rows;
+            maxHeight = (height - 150) / rows;
             maxWidth = width / columns;
         } else {
-            maxHeight = height / columns;
+            maxHeight = (height - 85) / columns;
             maxWidth = (width - 64) / rows;
         }
         const squareWidth = Math.floor(Math.min(maxHeight, maxWidth));
