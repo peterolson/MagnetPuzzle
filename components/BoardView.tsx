@@ -117,37 +117,50 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         const { height, width } = Dimensions.get('window');
         const isPortrait = height > width;
 
-        const board = this.state.board;
+        let board = this.state.board;
+        let boardIsPortrait = board.height > board.width;
+        if(!boardIsPortrait) board = board.transpose();
+
         const rows = board.height;
         const columns = board.width;
-        const maxHeight = height / rows;
-        const maxWidth = width / columns;
+        const bottomIndex = isPortrait ? rows - 1 : columns - 1;
+        const rightIndex = isPortrait ? columns - 1 : rows - 1;
+
+        let maxHeight, maxWidth;
+        if(isPortrait) {
+            maxHeight = (height - 100) / rows;
+            maxWidth = width / columns;
+        } else {
+            maxHeight = height / columns;
+            maxWidth = (width - 64) / rows;
+        }
         const squareWidth = Math.floor(Math.min(maxHeight, maxWidth));
         return <View>
-            <View style={styles.container}>
+            <View style={[{ flexDirection: isPortrait ? "column" : "row" }, styles.container]}>
                 {
                     times(rows, i =>
-                        <View style={styles.row} key={'row' + i}>
+                        <View style={[{ flexDirection: isPortrait ? "row" : "column" }, styles.row]} key={'row' + i}>
                             {
-                                times(columns, j =>
-                                    <SquareView key={'square' + i + '_' + j}
+                                times(columns, j => {
+                                    let [bi, bj] = boardIsPortrait ? [i, j] : [j, i];
+                                    return <SquareView key={'square' + i + '_' + j}
                                         width={squareWidth}
-                                        isBottom={i === rows - 1}
-                                        isRight={j === columns - 1}
-                                        pieceType={board.getPieceAt(i, j)}
-                                        onTap={() => this.onTapSquare(i, j)}
-                                        isActive={this.isActive(i, j)}
-                                        isPossibleMove={this.isPossibleMove(i, j)} />
-                                )
+                                        isBottom={(isPortrait ? i : j) === bottomIndex}
+                                        isRight={(isPortrait ? j : i) === rightIndex}
+                                        pieceType={this.state.board.getPieceAt(bi, bj)}
+                                        onTap={() => this.onTapSquare(bi, bj)}
+                                        isActive={this.isActive(bi, bj)}
+                                        isPossibleMove={this.isPossibleMove(bi, bj)} />
+                                })
                             }
                         </View>
                     )
                 }
-                <ActionPanel 
+                <ActionPanel
                     moveCount={this.state.moveCount}
                     isHorizontal={isPortrait}
                     onUndo={this.undo.bind(this)}
-                    onReset={this.reset.bind(this)}  />
+                    onReset={this.reset.bind(this)} />
             </View>
         </View>
     }
@@ -155,10 +168,10 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column'
+        padding: 2
     },
     row: {
-        flexDirection: 'row',
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center"
     }
 });

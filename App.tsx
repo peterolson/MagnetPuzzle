@@ -16,5 +16,10 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {}
+  container: {
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
