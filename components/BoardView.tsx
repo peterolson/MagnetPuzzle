@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, Modal } from 'react-native';
 import SquareView from './SquareView';
 import ActionPanel from './ActionPanel';
+import VictoryModal from './VictoryModal';
 import Board, { PieceType, Coord } from './../lib/Board';
+import {Puzzle} from './../lib/Puzzles';
 
 function times(n: number, fn: (i: number) => any) {
     let arr = new Array(n);
@@ -12,13 +14,14 @@ function times(n: number, fn: (i: number) => any) {
     return arr;
 }
 
-interface BoardViewProperties { board: Board }
+interface BoardViewProperties { puzzle: Puzzle, title: string }
 interface BoardViewState {
     activeSquare: Coord,
     possibleMoves: Coord[],
     board: Board,
     history: Board[],
-    moveCount: number
+    moveCount: number,
+    showVictoryModal: boolean
 }
 
 export default class BoardView extends React.Component<BoardViewProperties, BoardViewState> {
@@ -28,9 +31,10 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         this.state = {
             activeSquare: [-1, -1],
             possibleMoves: [],
-            board: props.board,
-            history: [props.board],
-            moveCount: 0
+            board: props.puzzle.board,
+            history: [props.puzzle.board],
+            moveCount: 0,
+            showVictoryModal: false
         }
     }
 
@@ -74,6 +78,9 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             history,
             moveCount
         });
+        if(board.isVictory()) {
+            this.showVictoryModal();
+        }
     }
 
     deselect() {
@@ -111,6 +118,18 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         let moveCount = 0;
         this.setState({ history, board, moveCount });
         this.deselect();
+    }
+
+    showVictoryModal() {
+        this.setState({
+            showVictoryModal: true
+        });
+    }
+    
+    hideVictoryModal() {
+        this.setState({
+            showVictoryModal: false
+        });
     }
 
     render() {
@@ -156,6 +175,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
                         </View>
                     )
                 }
+                <VictoryModal isVisible={this.state.showVictoryModal} hide={this.hideVictoryModal.bind(this)} title={this.props.title} moveCount={this.state.moveCount} />
                 <ActionPanel
                     moveCount={this.state.moveCount}
                     isHorizontal={isPortrait}

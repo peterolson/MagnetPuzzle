@@ -1,11 +1,13 @@
 import Board from "./Board";
 
+export interface Puzzle {
+    board: Board,
+    moves: number,
+    text?: string
+}
+
 interface PuzzleList {
-    [key : string] : {
-        board: Board,
-        moves: number,
-        text?: string
-    }[]
+    [key : string] : Puzzle[]
 }
 
 let puzzles : PuzzleList = {

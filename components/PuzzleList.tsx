@@ -27,7 +27,7 @@ export default class PuzzleList extends React.Component<{navigation: any}> {
                 puzzles.map((puzzle, i) => {
                     let name = names[group] + " " + (i + 1)
                     return <ListItem key={i} title={name} subtitle="Not solved yet." rightTitle="star display"
-                        onPress={() => this.props.navigation.push("GameView", {title: name, board: puzzle.board})} />
+                        onPress={() => this.props.navigation.push("GameView", {title: name, puzzle})} />
                 })
             }
         </ScrollView>
