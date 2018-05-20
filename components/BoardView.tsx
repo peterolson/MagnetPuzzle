@@ -4,7 +4,8 @@ import SquareView from './SquareView';
 import ActionPanel from './ActionPanel';
 import VictoryModal from './VictoryModal';
 import Board, { PieceType, Coord } from './../lib/Board';
-import {Puzzle} from './../lib/Puzzles';
+import { Puzzle } from './../lib/Puzzles';
+import { GameParams } from './GameView';
 
 function times(n: number, fn: (i: number) => any) {
     let arr = new Array(n);
@@ -14,7 +15,11 @@ function times(n: number, fn: (i: number) => any) {
     return arr;
 }
 
-interface BoardViewProperties { puzzle: Puzzle, title: string, goBack: () => void }
+interface BoardViewProperties {
+    gameParams: GameParams,
+    goBack: () => void,
+    goNextPuzzle: () => void
+}
 interface BoardViewState {
     activeSquare: Coord,
     possibleMoves: Coord[],
@@ -31,8 +36,8 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         this.state = {
             activeSquare: [-1, -1],
             possibleMoves: [],
-            board: props.puzzle.board,
-            history: [props.puzzle.board],
+            board: props.gameParams.puzzle.board,
+            history: [props.gameParams.puzzle.board],
             moveCount: 0,
             showVictoryModal: false
         }
@@ -78,7 +83,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             history,
             moveCount
         });
-        if(board.isVictory()) {
+        if (board.isVictory()) {
             this.showVictoryModal();
         }
     }
@@ -125,7 +130,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             showVictoryModal: true
         });
     }
-    
+
     hideVictoryModal() {
         this.setState({
             showVictoryModal: false
@@ -139,7 +144,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
 
         let board = this.state.board;
         let boardIsPortrait = board.height > board.width;
-        if(!boardIsPortrait) board = board.transpose();
+        if (!boardIsPortrait) board = board.transpose();
 
         const rows = board.height;
         const columns = board.width;
@@ -147,7 +152,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         const rightIndex = isPortrait ? columns - 1 : rows - 1;
 
         let maxHeight, maxWidth;
-        if(isPortrait) {
+        if (isPortrait) {
             maxHeight = (height - 150) / rows;
             maxWidth = width / columns;
         } else {
@@ -176,12 +181,11 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
                         </View>
                     )
                 }
-                <VictoryModal isVisible={this.state.showVictoryModal} 
-                    hide={this.hideVictoryModal.bind(this)} 
-                    title={this.props.title} 
+                <VictoryModal isVisible={this.state.showVictoryModal}
+                    hide={this.hideVictoryModal.bind(this)}
                     moveCount={this.state.moveCount}
-                    goBack={this.props.goBack}
-                    puzzle={this.props.puzzle} />
+                    {...this.props} />
+
                 <ActionPanel
                     moveCount={this.state.moveCount}
                     isHorizontal={isPortrait}

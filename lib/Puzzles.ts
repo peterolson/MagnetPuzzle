@@ -3,7 +3,8 @@ import Board from "./Board";
 export interface Puzzle {
     board: Board,
     moves: number,
-    text?: string
+    text?: string,
+    name?: string
 }
 
 interface PuzzleList {
@@ -153,6 +154,21 @@ let puzzles : PuzzleList = {
             moves: 16
         }
     ]
+}
+
+let names : any = {
+    learn: "Learning Puzzle #",
+    easy: "Easy Puzzle #",
+    moderate: "Moderate Puzzle #",
+    hard: "Hard Puzzle #"
+}
+
+for(let difficulty in puzzles) {
+    let n = 1;
+    for(let puzzle of puzzles[difficulty]) {
+        puzzle.name = puzzle.name || names[difficulty] + n;
+        n++;
+    }
 }
 
 export default puzzles;

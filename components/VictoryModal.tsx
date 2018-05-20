@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import {Puzzle} from './../lib/Puzzles';
+import {StarType, addSolution} from './../lib/SolutionStore';
+import { GameParams } from './GameView';
 
 const images = {
     gold: require("../img/gold.png"),
@@ -14,43 +16,77 @@ const images = {
 
 interface VictoryModalProps {
     isVisible: boolean,
-    title: string,
+    gameParams: GameParams,
     moveCount: number,
     goBack: () => void,
-    puzzle: Puzzle,
+    goNextPuzzle: () => void,
     hide: () => void
 }
 
 export default class VictoryModal extends React.Component<VictoryModalProps> {
+    getStarType() {
+        let moveCount = this.props.moveCount;
+        let bestMoveCount = this.props.gameParams.puzzle.moves;
+        if(moveCount <= bestMoveCount) return StarType.Gold;
+        if(moveCount <= bestMoveCount * 7 / 6 || moveCount === bestMoveCount + 1) return StarType.Silver;
+        return StarType.Bronze;
+    }
+
+    getStarImages() {
+        let starType = this.getStarType();
+        if(starType === StarType.Gold) {
+            return [<Image source={images.gold} key="g1" />,
+                <Image source={images.gold} key="g2" />,
+                <Image source={images.gold} key="g3" />]
+        }
+        if(starType === StarType.Silver) {
+            return [<Image source={images.silver} key="s1" />,
+                <Image source={images.silver} key="s2" />];
+        }
+        return <Image source={images.bronze} />
+    }
+
     render() {
-        const { isVisible, hide, title, moveCount, goBack, puzzle } = this.props;
-        console.log(goBack);
+        const { isVisible, hide, gameParams, moveCount, goBack, goNextPuzzle } = this.props;
+        let name = String(gameParams.puzzle.name);
+        let bestMoveCount = gameParams.puzzle.moves;
+        if(isVisible) {
+            addSolution(gameParams.puzzle, {
+                moveCount,
+                bestMoveCount,
+                time: new Date(),
+                starType: this.getStarType()
+            });
+        }
         return (
             <Modal isVisible={isVisible} scrollOffset={0} style={modalStyle} >
                 <Text style={{ fontSize: 28, marginBottom: 5 }}>Congratulations!</Text>
                 <Text style={subtitle}>You solved</Text>
-                <Text style={[bold, subtitle]}>{title}</Text>
+                <Text style={[bold, subtitle]}>{name}</Text>
                 <Text style={subtitle}> in </Text>
                 <Text style={[bold, subtitle]}>{moveCount} {moveCount === 1 ? "move" : "moves"}</Text>
                 <View style={{ flexDirection: "row" }}>
-                    <Image source={images.gold} />
-                    <Image source={images.gold} />
-                    <Image source={images.gold} />
+                    {this.getStarImages()}
                 </View>
-                <Text>You found the best solution!</Text>
+                <Text>{moveCount <= bestMoveCount ? "You found the shortest solution!" : `This puzzle can be solved in ${bestMoveCount} moves.`}</Text>
                 <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity style={button} onPress={goBack}>
                         <Image style={image} source={images.up} />
-                        <Text style={label}>Easy Puzzles</Text>
+                        <Text style={label}>{gameParams.groupTitle}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={button} onPress={hide}>
                         <Image style={image} source={images.restart} />
                         <Text style={label}>Play again</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={button}>
-                        <Image style={image} source={images.next} />
-                        <Text style={label}>Next Puzzle</Text>
-                    </TouchableOpacity>
+                    {
+                    (()=>{
+                        if(!gameParams.nextPuzzle) return;
+                        return <TouchableOpacity style={button} onPress={goNextPuzzle}>
+                            <Image style={image} source={images.next} />
+                            <Text style={label}>Next Puzzle</Text>
+                        </TouchableOpacity>
+                    })()    
+                    }
                 </View>
             </Modal>
         );
