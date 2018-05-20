@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import GameView from './components/GameView';
+import { StackNavigator } from 'react-navigation';
 
 
 export default class App extends React.Component {
