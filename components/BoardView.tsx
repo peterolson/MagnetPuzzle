@@ -14,7 +14,7 @@ function times(n: number, fn: (i: number) => any) {
     return arr;
 }
 
-interface BoardViewProperties { puzzle: Puzzle, title: string }
+interface BoardViewProperties { puzzle: Puzzle, title: string, goBack: () => void }
 interface BoardViewState {
     activeSquare: Coord,
     possibleMoves: Coord[],
@@ -130,6 +130,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         this.setState({
             showVictoryModal: false
         });
+        this.reset();
     }
 
     render() {
@@ -175,7 +176,12 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
                         </View>
                     )
                 }
-                <VictoryModal isVisible={this.state.showVictoryModal} hide={this.hideVictoryModal.bind(this)} title={this.props.title} moveCount={this.state.moveCount} />
+                <VictoryModal isVisible={this.state.showVictoryModal} 
+                    hide={this.hideVictoryModal.bind(this)} 
+                    title={this.props.title} 
+                    moveCount={this.state.moveCount}
+                    goBack={this.props.goBack}
+                    puzzle={this.props.puzzle} />
                 <ActionPanel
                     moveCount={this.state.moveCount}
                     isHorizontal={isPortrait}

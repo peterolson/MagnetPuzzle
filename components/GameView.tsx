@@ -13,7 +13,7 @@ export default class GameView extends React.Component<{ navigation: any, }> {
         const puzzle = navigation.getParam('puzzle', null);
         const title = navigation.getParam('title', null);
         return <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%", height: "100%" }}>
-            <BoardView puzzle={puzzle} title={title} />
+            <BoardView puzzle={puzzle} title={title} goBack={navigation.goBack.bind(this)} />
         </View>
     }
 }
