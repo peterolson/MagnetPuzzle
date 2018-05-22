@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text, View, StyleSheet, Dimensions, Modal } from 'react-native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import SquareView from './SquareView';
 import ActionPanel from './ActionPanel';
 import VictoryModal from './VictoryModal';
 import Board, { PieceType, Coord } from './../lib/Board';
 import { Puzzle } from './../lib/Puzzles';
 import { GameParams } from './GameView';
-import {StarType, addSolution, getStarType} from './../lib/SolutionStore';
+import { StarType, addSolution, getStarType } from './../lib/SolutionStore';
+import { ScaledSize } from 'react-native';
+
 
 function times(n: number, fn: (i: number) => any) {
     let arr = new Array(n);
@@ -27,7 +29,8 @@ interface BoardViewState {
     board: Board,
     history: Board[],
     moveCount: number,
-    showVictoryModal: boolean
+    showVictoryModal: boolean,
+    dimensions: ScaledSize
 }
 
 export default class BoardView extends React.Component<BoardViewProperties, BoardViewState> {
@@ -40,8 +43,20 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             board: props.gameParams.puzzle.board,
             history: [props.gameParams.puzzle.board],
             moveCount: 0,
-            showVictoryModal: false
+            showVictoryModal: false,
+            dimensions: Dimensions.get("window")
         }
+        Dimensions.addEventListener("change", this.screenChangeHandler);
+    }
+
+    private screenChangeHandler = ({ window }: { window: ScaledSize }) => {
+        this.setState({
+            dimensions: window
+        });
+    };
+
+    componentWillUnmount() {
+        Dimensions.removeEventListener("change", this.screenChangeHandler);
     }
 
     onTapSquare(i: number, j: number) {
@@ -149,7 +164,8 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
     }
 
     render() {
-        const { height, width } = Dimensions.get('window');
+        const puzzle = this.props.gameParams.puzzle;
+        const { height, width } = this.state.dimensions;
         const isPortrait = height > width;
 
         let board = this.state.board;
@@ -162,15 +178,22 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         const rightIndex = isPortrait ? columns - 1 : rows - 1;
 
         let maxHeight, maxWidth;
+        let textHeight = puzzle.text ? 50 : 0;
         if (isPortrait) {
-            maxHeight = (height - 150) / rows;
+            maxHeight = (height - 150 - textHeight) / rows;
             maxWidth = width / columns;
         } else {
-            maxHeight = (height - 85) / columns;
+            maxHeight = (height - 85 - textHeight) / columns;
             maxWidth = (width - 64) / rows;
         }
         const squareWidth = Math.floor(Math.min(maxHeight, maxWidth));
         return <View>
+            {
+                puzzle.text ?
+                    <Text style={{ textAlign: "center", fontSize: 16, padding: 5, maxWidth: 400 }}>
+                        {puzzle.text}
+                    </Text> : null
+            }
             <View style={[{ flexDirection: isPortrait ? "column" : "row" }, styles.container]}>
                 {
                     times(rows, i =>
