@@ -20,7 +20,112 @@ let puzzles : PuzzleList = {
                 " H "
             ]),
             moves: 1,
-            name: "Moving Home"
+            name: "Going Home",
+            text: "The object of the game is to bring everyone home. To do that, tap the person, then tap the home."
+        },
+        {
+            board: new Board([
+                "S  ",
+                "   ",
+                "H S"
+            ]),
+            moves: 2,
+            name: "Going Home Together",
+            text: "People can only move horizontally and vertically. Homes cannot move."
+        },
+        {
+            board: new Board([
+                "B  ",
+                "  H",
+                "S  "
+            ]),
+            moves: 2,
+            name: "Blocks",
+            text: "Blocks can move like people, but they don't need to go home. People and blocks can pull each other."
+        },
+        {
+            board: new Board([
+                "B B",
+                "  H",
+                " S "
+            ]),
+            moves: 3,
+            name: "Moving Blocks",
+            text: "Blocks can pull each other."
+        },
+        {
+            board: new Board([
+                "S S",
+                "   ",
+                "HH "
+            ]),
+            moves: 3,
+            name: "Co-operation",
+            text: "People can also pull each other."
+        },
+        {
+            board: new Board([
+                "H  ",
+                "B B",
+                "S  "
+            ]),
+            moves: 2,
+            name: "Obstacles",
+            text: "Sometimes blocks get in the way."
+        },
+        {
+            board: new Board([
+                "SB ",
+                "  H",
+                "  B",
+                "B "
+            ]),
+            moves: 4,
+            name: "Winding Path",
+            text: "Sometimes blocks can lead the way."
+        },
+        {
+            board: new Board([
+                "S  ",
+                "  B",
+                "B  ",
+                "H  "
+            ]),
+            moves: 3,
+            name: "Hello Block! Goodbye Block!",
+            text: "Sometimes you have to pull a block towards yourself before you can move it out of the way."
+        },
+        {
+            board: new Board([
+                "  B ",
+                "S   ",
+                " H B"
+            ]),
+            moves: 4,
+            name: "Homeward Block",
+            text: "Homes can pull blocks."
+        },
+        {
+            board: new Board([
+                "S  ",
+                "   ",
+                "S H",
+                "   ",
+                "B  "
+            ]),
+            moves: 4,
+            name: "Delayed Gratification",
+            text: "Even if you can go home right away, sometimes it's not a good idea."
+        },
+        {
+            board: new Board([
+                "S S ",
+                "   H",
+                "B  B"
+            ]),
+            moves: 6,
+            name: "That's all, folks!",
+            text: "I think you've got the hang of this now."
         }
     ],
     easy: [
@@ -153,6 +258,17 @@ let puzzles : PuzzleList = {
                 "B    B  "
             ]),
             moves: 16
+        },
+        {
+            board: new Board([
+                "  S  ",
+                "S   S",
+                "S   H",
+                "  S  ",
+                "S   B",
+                "S   S"
+            ]),
+            moves: 19
         }
     ]
 }
