@@ -64,7 +64,7 @@ export default class PuzzleList extends React.Component<PuzzleListProps> {
                   {getStarImages(solution.starType)}
                 </View>
               </View>}
-              subtitle={isSolved ? `You solved in ${moves(solution.moveCount)}. ` + (isBest ? "" : `Can be solved in ${moves(solution.bestMoveCount)}.`) : "Not solved yet."}
+              subtitle={isSolved ? `Solved in ${moves(solution.moveCount)}. ` + (isBest ? "" : `Try to solve in ${moves(solution.bestMoveCount)}.`) : "Not solved yet."}
               subtitleStyle={{fontSize: 13}}
               onPress={() => this.props.navigation.push("GameView", { groupTitle: title, puzzle, nextPuzzle, i, puzzles, onSolve: () => this.update() })} />
           })
