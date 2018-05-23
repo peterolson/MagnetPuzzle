@@ -123,7 +123,7 @@ let puzzles : PuzzleList = {
                 "   H",
                 "B  B"
             ]),
-            moves: 6,
+            moves: 5,
             name: "That's all, folks!",
             text: "I think you've got the hang of this now."
         }
@@ -160,6 +160,15 @@ let puzzles : PuzzleList = {
         }
     ],
     moderate: [
+        {   // among most difficult 3x4 with 1 starts and 3 blocks, found by computer
+            board: new Board([
+                "S B",
+                "  H",
+                "   ",
+                "BB "
+            ]),
+            moves: 6
+        },
         {
             board: new Board([
                 "S B SB",
@@ -168,6 +177,15 @@ let puzzles : PuzzleList = {
                 "   B  "
             ]),
             moves: 7
+        },
+        {   // among most difficult 3x4 with 2 starts and 3 blocks, found by computer
+            board: new Board([
+                "S S",
+                "H  ",
+                "B  ",
+                "B B"
+            ]),
+            moves: 8
         },
         {
             board: new Board([
@@ -178,6 +196,28 @@ let puzzles : PuzzleList = {
             ]),
             moves: 8
         },
+        {   // among most difficult 3x5 with 1 starts and 3 blocks, found by computer
+            board: new Board([
+                "  S",
+                "H B",
+                "   ",
+                "B  ",
+                "  B"
+            ]),
+            moves: 8
+        },
+        {   // among most difficult 3x5 with 1 starts and 3 blocks, found by computer
+            board: new Board([
+                "B S",
+                "   ",
+                "H  ",
+                "   ",
+                "B B"
+            ]),
+            moves: 8
+        }
+    ],
+    hard: [
         {
             board: new Board([
                 "SB S",
@@ -187,9 +227,35 @@ let puzzles : PuzzleList = {
                 "  H "
             ]),
             moves: 8
-        }
-    ],
-    hard: [
+        },
+        {   // among most difficult 4x4 with 2 starts and 2 blocks, found by computer
+            board: new Board([
+                " H B",
+                "S   ",
+                "   B",
+                "S   "
+            ]),
+            moves: 10
+        },
+        {   // among most difficult 3x5 with 2 starts and 2 blocks, found by computer
+            board: new Board([
+                "B S",
+                "   ",
+                "H  ",
+                "   ",
+                "B S"
+            ]),
+            moves: 11
+        },
+        {   // among most difficult 4x4 with 2 starts and 2 blocks, found by computer
+            board: new Board([
+                "S  S",
+                " H  ",
+                "    ",
+                " B B"
+            ]),
+            moves: 10
+        },
         {
             board: new Board([
                 "B  B   B",
@@ -247,6 +313,42 @@ let puzzles : PuzzleList = {
             ]),
             moves: 13
         },
+        {   // among most difficult 4x4 with 2 starts and 3 blocks, found by computer
+            board: new Board([
+                " H B",
+                "   B",
+                "S   ",
+                "S  B"
+            ]),
+            moves: 13
+        },
+        {   // among most difficult 4x4 with 2 starts and 3 blocks, found by computer
+            board: new Board([
+                "BH B",
+                "   B",
+                "    ",
+                "S  S"
+            ]),
+            moves: 13
+        },
+        {   // among most difficult 4x4 with 3 starts and 2 blocks, found by computer
+            board: new Board([
+                " H B",
+                "   B",
+                "S   ",
+                " S S"
+            ]),
+            moves: 14
+        },
+        {   // among most difficult 4x4 with 3 starts and 2 blocks, found by computer
+            board: new Board([
+                "BH B",
+                "    ",
+                "    ",
+                "SS S"
+            ]),
+            moves: 14
+        },
         {
             board: new Board([
                 "  S    B",
@@ -259,6 +361,24 @@ let puzzles : PuzzleList = {
             ]),
             moves: 16
         },
+        {   // among most difficult 4x4 with 3 starts and 3 blocks, found by computer
+            board: new Board([
+                " HBB",
+                "   S",
+                "S  B",
+                "  S "
+            ]),
+            moves: 15
+        },
+        {   // among most difficult 4x4 with 3 starts and 3 blocks, found by computer
+            board: new Board([
+                " H B",
+                "  BS",
+                "S  B",
+                "  S "
+            ]),
+            moves: 15
+        },
         {
             board: new Board([
                 "  S  ",
@@ -269,6 +389,24 @@ let puzzles : PuzzleList = {
                 "S   S"
             ]),
             moves: 19
+        },
+        {   // among most difficult 4x4 with 4 starts and 2 blocks, found by computer
+            board: new Board([
+                "BH S",
+                "   B",
+                "    ",
+                "S SS"
+            ]),
+            moves: 17
+        },
+        {   // among most difficult 4x4 with 4 starts and 3 blocks, found by computer
+            board: new Board([
+                " H B",
+                "B   ",
+                "  BS",
+                " SSS"
+            ]),
+            moves: 18
         }
     ]
 }
