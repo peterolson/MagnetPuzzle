@@ -178,7 +178,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         const rightIndex = isPortrait ? columns - 1 : rows - 1;
 
         let maxHeight, maxWidth;
-        let textHeight = puzzle.text ? 50 : 0;
+        let textHeight = puzzle.text ? 100 : 0;
         if (isPortrait) {
             maxHeight = (height - 150 - textHeight) / rows;
             maxWidth = width / columns;
