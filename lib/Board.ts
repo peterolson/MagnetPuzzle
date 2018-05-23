@@ -12,7 +12,7 @@ export default class Board {
     public readonly width: number;
     public readonly height: number;
     public readonly stringRepresentation: string;
-    private pieceMap: PieceType[][];
+    public readonly pieceMap: PieceType[][];
 
     public constructor(pieceMap: string[]) {
         this.stringRepresentation = pieceMap.join("");
