@@ -1,5 +1,12 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "sdkVersion": "27.0.0",
+    "name": "The Magnet Puzzle",
+    "icon": "./img/start.png",
+    "version": "0.1.0",
+    "slug": "the-magnet-puzzle",
+    "android": {
+      "package": "com.peterolson.magnetpuzzle"
+    }
   }
 }
