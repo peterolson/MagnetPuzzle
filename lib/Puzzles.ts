@@ -8,10 +8,10 @@ export interface Puzzle {
 }
 
 interface PuzzleList {
-    [key : string] : Puzzle[]
+    [key: string]: Puzzle[]
 }
 
-let puzzles : PuzzleList = {
+let puzzles: PuzzleList = {
     learn: [
         {
             board: new Board([
@@ -20,8 +20,8 @@ let puzzles : PuzzleList = {
                 " H "
             ]),
             moves: 1,
-            name: "Going Home",
-            text: "The object of the game is to bring everyone home. To do that, tap the person, then tap the home."
+            name: "1 - Going Home",
+            text: "The object of the game is to bring everyone home.\n To do that, tap the person, then tap the home."
         },
         {
             board: new Board([
@@ -30,27 +30,28 @@ let puzzles : PuzzleList = {
                 "H S"
             ]),
             moves: 2,
-            name: "Going Home Together",
-            text: "People can only move horizontally and vertically. Homes cannot move."
+            name: "2 - Going Home Together",
+            text: "People can only move horizontally and vertically.\n Homes cannot move."
         },
         {
             board: new Board([
                 "B  ",
                 "  H",
+                "   ",
                 "S  "
             ]),
             moves: 2,
-            name: "Blocks",
-            text: "Blocks can move like people, but they don't need to go home. People and blocks can pull each other."
+            name: "3 - Blocks",
+            text: "Blocks don't need to go home.\n Pieces can only move when pulled by another piece.\n People and blocks can pull each other."
         },
         {
             board: new Board([
-                "B B",
-                "  H",
-                " S "
+                "B  B",
+                "   H",
+                "  S "
             ]),
             moves: 3,
-            name: "Moving Blocks",
+            name: "4 - Moving Blocks",
             text: "Blocks can pull each other."
         },
         {
@@ -60,7 +61,7 @@ let puzzles : PuzzleList = {
                 "HH "
             ]),
             moves: 3,
-            name: "Co-operation",
+            name: "5 - Co-operation",
             text: "People can also pull each other."
         },
         {
@@ -70,7 +71,7 @@ let puzzles : PuzzleList = {
                 "S  "
             ]),
             moves: 2,
-            name: "Obstacles",
+            name: "6 - Obstacles",
             text: "Sometimes blocks get in the way."
         },
         {
@@ -81,7 +82,7 @@ let puzzles : PuzzleList = {
                 "B "
             ]),
             moves: 4,
-            name: "Winding Path",
+            name: "7 - Winding Path",
             text: "Sometimes blocks can lead the way."
         },
         {
@@ -92,7 +93,7 @@ let puzzles : PuzzleList = {
                 "H  "
             ]),
             moves: 3,
-            name: "Hello Block! Goodbye Block!",
+            name: "8 - Hi Block! Bye Block!",
             text: "Sometimes you have to pull a block towards yourself before you can move it out of the way."
         },
         {
@@ -102,7 +103,7 @@ let puzzles : PuzzleList = {
                 " H B"
             ]),
             moves: 4,
-            name: "Homeward Block",
+            name: "9 - Homeward Block",
             text: "Homes can pull blocks."
         },
         {
@@ -114,7 +115,7 @@ let puzzles : PuzzleList = {
                 "B  "
             ]),
             moves: 4,
-            name: "Delayed Gratification",
+            name: "10 - Delayed Gratification",
             text: "Even if you can go home right away, sometimes it's not a good idea."
         },
         {
@@ -124,7 +125,7 @@ let puzzles : PuzzleList = {
                 "B  B"
             ]),
             moves: 5,
-            name: "That's all, folks!",
+            name: "11 - That's all, folks!",
             text: "I think you've got the hang of this now."
         }
     ],
@@ -148,6 +149,13 @@ let puzzles : PuzzleList = {
             ]),
             moves: 4
         },
+        {   // found by computer
+            board: new Board([
+                "B  ",
+                "  S",
+                "SH "]),
+            moves: 4
+        },
         {
             board: new Board([
                 "B   ",
@@ -157,6 +165,73 @@ let puzzles : PuzzleList = {
                 " H  "
             ]),
             moves: 5
+        },
+        {
+            board: new Board([
+                "S B ",
+                " S B",
+                " B  ",
+                " H  ",
+                "  B "
+            ]),
+            moves: 7
+        },
+        {
+            board: new Board([
+                "SSSB",
+                " H  "
+            ]),
+            moves: 6
+        },
+        {
+            board: new Board([
+                "B S ",
+                "   S",
+                " B  ",
+                "  H "
+            ]),
+            moves: 5
+        },
+        {   // found by computer
+            board: new Board([
+                "S B",
+                "  H",
+                "S B"
+            ]),
+            moves: 6
+        },
+        {
+            board: new Board([
+                "  B ",
+                "    ",
+                "H   ",
+                "BB S"
+            ]),
+            moves: 6
+        },
+        {   // found by computer
+            board: new Board([
+                "S S",
+                "  S",
+                "BHB"
+            ]),
+            moves: 8
+        },
+        {
+            board: new Board([
+                "S B  ",
+                "B    ",
+                "  BBH",
+                " B   "
+            ]),
+            moves: 7
+        },
+        {   // found by computer
+            board: new Board([
+                " H B",
+                "B  B",
+                " BSS"]),
+            moves: 8
         }
     ],
     moderate: [
@@ -178,11 +253,28 @@ let puzzles : PuzzleList = {
             ]),
             moves: 7
         },
+        {   // found by computer
+            board: new Board([
+                " B S",
+                " H  ",
+                "SBBB"]),
+            moves: 7
+        },
         {   // among most difficult 3x4 with 2 starts and 3 blocks, found by computer
             board: new Board([
                 "S S",
                 "H  ",
                 "B  ",
+                "B B"
+            ]),
+            moves: 8
+        },
+        {   // among most difficult 3x5 with 1 starts and 3 blocks, found by computer
+            board: new Board([
+                "B S",
+                "   ",
+                "H  ",
+                "   ",
                 "B B"
             ]),
             moves: 8
@@ -196,6 +288,26 @@ let puzzles : PuzzleList = {
             ]),
             moves: 8
         },
+        {   // found by computer
+            board: new Board([
+                "B S",
+                "   ",
+                "B  ",
+                "H  ",
+                "   ",
+                "B B"
+            ]),
+            moves: 8
+        },
+        {   // found by computer
+            board: new Board([
+                "  SB",
+                "H   ",
+                "    ",
+                " B B"
+            ]),
+            moves: 8
+        },
         {   // among most difficult 3x5 with 1 starts and 3 blocks, found by computer
             board: new Board([
                 "  S",
@@ -206,18 +318,99 @@ let puzzles : PuzzleList = {
             ]),
             moves: 8
         },
-        {   // among most difficult 3x5 with 1 starts and 3 blocks, found by computer
+        {   // found by computer
             board: new Board([
+                "  B  ",
+                " H  B",
+                "SB S "]),
+            moves: 8
+        },
+        {   // found by computer
+            board: new Board([
+                "  B B",
+                "  H B",
+                "BS  S"]),
+            moves: 8
+        },
+        {   // found by computer
+            board: new Board([
+                "B  ",
                 "B S",
-                "   ",
                 "H  ",
+                "   ",
                 "   ",
                 "B B"
             ]),
-            moves: 8
+            moves: 10
+        },
+        {   // found by computer
+            board: new Board([
+                "B  S",
+                " S S",
+                "B H "]),
+            moves: 11
+        },
+        {   // found by computer
+            board: new Board([
+                "  B ",
+                "H   ",
+                "   S",
+                "B  B"
+            ]),
+            moves: 9
+        },
+        {   // found by computer
+            board: new Board([
+                "B B",
+                "  B",
+                " B ",
+                "H  ",
+                "B  ",
+                "  S"
+            ]),
+            moves: 10
         }
     ],
     hard: [
+        {   // found by computer
+            board: new Board([
+                " B S",
+                "H   ",
+                "    ",
+                " B B"
+            ]),
+            moves: 9
+        },
+        {   // found by computer
+            board: new Board([
+                "S B",
+                " S ",
+                "H  ",
+                "  B",
+                "   ",
+                "   ",
+                " B "
+            ]),
+            moves: 12
+        },
+        {   // found by computer
+            board: new Board([
+                "H    ",
+                "     ",
+                "B  H ",
+                "B   S",
+                "BB   "]),
+            moves: 11
+        },
+        {   // found by computer
+            board: new Board([
+                "B  S",
+                "H   ",
+                "    ",
+                "B  B"
+            ]).transpose(),
+            moves: 11
+        },
         {
             board: new Board([
                 "SB S",
@@ -228,6 +421,18 @@ let puzzles : PuzzleList = {
             ]),
             moves: 8
         },
+        {   // found by computer
+            board: new Board([
+                "S S",
+                "   ",
+                "H  ",
+                "   ",
+                "  B",
+                "B  ",
+                "B  "
+            ]),
+            moves: 14
+        },
         {   // among most difficult 4x4 with 2 starts and 2 blocks, found by computer
             board: new Board([
                 " H B",
@@ -236,6 +441,14 @@ let puzzles : PuzzleList = {
                 "S   "
             ]),
             moves: 10
+        },
+        {   // found by computer
+            board: new Board([
+                "B  S",
+                "H   ",
+                "    ",
+                "B  B"]),
+            moves: 11
         },
         {   // among most difficult 3x5 with 2 starts and 2 blocks, found by computer
             board: new Board([
@@ -256,6 +469,17 @@ let puzzles : PuzzleList = {
             ]),
             moves: 10
         },
+        {   // found by computer
+            board: new Board([
+                "   B",
+                "  S ",
+                " H  ",
+                "    ",
+                "    ",
+                "B BB"
+            ]),
+            moves: 11
+        },
         {
             board: new Board([
                 "B  B   B",
@@ -265,6 +489,33 @@ let puzzles : PuzzleList = {
             ]),
             moves: 11
         },
+        {   // among most difficult 4x5 with 1 start and 3 blocks, found by computer
+            board: new Board([
+                " H B",
+                "    ",
+                "B   ",
+                "   B",
+                "S   "
+            ]),
+            moves: 11
+        },
+        {   // found by computer
+            board: new Board([
+                "H B B",
+                "     ",
+                "   H ",
+                " S   ",
+                "    S"]),
+            moves: 12
+        },
+        {   // found by computer
+            board: new Board([
+                "S  B",
+                "   H",
+                "    ",
+                "B  B"]),
+            moves: 11
+        },
         {
             board: new Board([
                 "  S   BS",
@@ -272,6 +523,14 @@ let puzzles : PuzzleList = {
                 "B       ",
                 "  BH    "
             ]),
+            moves: 12
+        },
+        {   // found by computer
+            board: new Board([
+                "B H    B",
+                "        ",
+                "        ",
+                "B  S    "]),
             moves: 12
         },
         {
@@ -301,7 +560,7 @@ let puzzles : PuzzleList = {
                 " B   S",
                 " BS   "
             ]),
-            moves: 15
+            moves: 14
         },
         {
             board: new Board([
@@ -322,6 +581,15 @@ let puzzles : PuzzleList = {
             ]),
             moves: 13
         },
+        {   // found by computer
+            board: new Board([
+                "  B B",
+                "     ",
+                "B H  ",
+                "     ",
+                " S  S"]),
+            moves: 14
+        },
         {   // among most difficult 4x4 with 2 starts and 3 blocks, found by computer
             board: new Board([
                 "BH B",
@@ -330,6 +598,16 @@ let puzzles : PuzzleList = {
                 "S  S"
             ]),
             moves: 13
+        },
+        {   // found by computer
+            board: new Board([
+                " B  ",
+                " B H",
+                "    ",
+                "B  S",
+                "  S "
+            ]),
+            moves: 14
         },
         {   // among most difficult 4x4 with 3 starts and 2 blocks, found by computer
             board: new Board([
@@ -349,6 +627,16 @@ let puzzles : PuzzleList = {
             ]),
             moves: 14
         },
+        {   // found by computer
+            board: new Board([
+                " H B",
+                "    ",
+                "   S",
+                "B   ",
+                "  SB"
+            ]),
+            moves: 15
+        },
         {
             board: new Board([
                 "  S    B",
@@ -359,6 +647,25 @@ let puzzles : PuzzleList = {
                 "B       ",
                 "B    B  "
             ]),
+            moves: 16
+        },
+        {   // found by computer
+            board: new Board([
+                "BH  ",
+                "B  S",
+                "    ",
+                "    ",
+                "S  B"
+            ]),
+            moves: 16
+        },
+        {   // found by computer
+            board: new Board([
+                "   B ",
+                "H    ",
+                "     ",
+                "BB  B",
+                " S   "]),
             moves: 16
         },
         {   // among most difficult 4x4 with 3 starts and 3 blocks, found by computer
@@ -406,21 +713,54 @@ let puzzles : PuzzleList = {
                 "  BS",
                 " SSS"
             ]),
+            moves: 19
+        },
+        {   // found by computer
+            board: new Board([
+                " H B B",
+                "      ",
+                "B     ",
+                "  B  S"]),
             moves: 18
+        },
+        {   // found by computer
+            board: new Board([
+                "BB  S",
+                "     ",
+                "   H ",
+                "     ",
+                "S   B"]),
+            moves: 20
+        },
+        {   // found by computer
+            board: new Board([
+                "B  BH ",
+                " S    ",
+                "     B",
+                "S    B"]),
+            moves: 22
+        },
+        {   // found by computer
+            board: new Board([
+                "B   H ",
+                "      ",
+                "    BB",
+                "S S B "]),
+            moves: 22
         }
     ]
 }
 
-let names : any = {
+let names: any = {
     learn: "Learning Puzzle #",
     easy: "Easy Puzzle #",
     moderate: "Moderate Puzzle #",
     hard: "Hard Puzzle #"
 }
 
-for(let difficulty in puzzles) {
+for (let difficulty in puzzles) {
     let n = 1;
-    for(let puzzle of puzzles[difficulty]) {
+    for (let puzzle of puzzles[difficulty]) {
         puzzle.name = puzzle.name || names[difficulty] + n;
         n++;
     }

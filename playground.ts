@@ -1,16 +1,23 @@
 import Board from "./lib/Board";
 import solveBoard from "./lib/SolveBoard";
+import puzzles from "./lib/Puzzles";
 
-let board = new Board([
-    "SB S",
-    "    ",
-    "  B ",
-    "B  B",
-    "  H "
-]);
+// verify that minimum move count is correct
+/*
+for(let difficulty in puzzles) {
+    for(let puzzle of puzzles[difficulty]) {
+        if(puzzle.board.stringRepresentation === '  S  S   SS   H  S  S   BS   S') continue;
+        let solution = solveBoard(puzzle.board);
+        if(solution && puzzle.moves !== solution.length - 1) {
+            console.log("Expected", puzzle.moves, "Actual", solution.length - 1, puzzle.board);
+        }
+    }
+}
+*/
 
 function displaySolution(solution: Board[] | null) {
     if (solution) {
+        let board = solution[0];
         let moveIndex = 0;
         for (let move of solution) {
             let display = "Move #" + moveIndex + "\n";
@@ -46,64 +53,76 @@ function choose(length: number, n: number, i: number, disallowed: NumberDict) {
     }
     return choices;
 }
-function disallowedFromArray(arr : Choice) {
-    let dict : NumberDict = {};
-    for(let number of arr) dict[number] = true;
+function disallowedFromArray(arr: Choice) {
+    let dict: NumberDict = {};
+    for (let number of arr) dict[number] = true;
     return dict;
 }
 
 function generateBoards(width: number, height: number, homes: number, starts: number, blocks: number, homeChoices?: Choice[]) {
     let length = width * height;
-    let choices : [Choice, Choice, Choice][] = [];
-    for(let homeChoice of homeChoices || choose(length, homes, 0, {})) {
+    let choices: [Choice, Choice, Choice][] = [];
+    for (let homeChoice of homeChoices || choose(length, homes, 0, {})) {
         let disallowed = disallowedFromArray(homeChoice);
-        for(let startsChoice of choose(length, starts, 0, disallowed)) {
+        for (let startsChoice of choose(length, starts, 0, disallowed)) {
             let disallowed = disallowedFromArray(homeChoice.concat(startsChoice));
-            for(let blocksChoice of choose(length, blocks, 0, disallowed)) {
+            for (let blocksChoice of choose(length, blocks, 0, disallowed)) {
                 choices.push([homeChoice, startsChoice, blocksChoice]);
             }
         }
     }
-    let board : string[] = [];
-    for(let i = 0; i < length; i++) board.push(" ");
+    let board: string[] = [];
+    for (let i = 0; i < length; i++) board.push(" ");
     return choices.map(([homesChoice, startsChoice, blocksChoice]) => {
         let boardString = board.slice();
-        for(let i of homesChoice) {
+        for (let i of homesChoice) {
             boardString[i] = "H";
         }
-        for(let i of startsChoice) {
+        for (let i of startsChoice) {
             boardString[i] = "S";
         }
-        for(let i of blocksChoice) {
+        for (let i of blocksChoice) {
             boardString[i] = "B";
         }
         let pieceMap = [];
-        for(let i = 0; i < length; i+= width) {
+        for (let i = 0; i < length; i += width) {
             pieceMap.push(boardString.slice(i, i + width).join(""));
         }
         return new Board(pieceMap);
     });
 }
 
-let boards = generateBoards(3,5,1,2,2, [[1],[3],[4],[6],[7]]);
+let boards = generateBoards(3, 6, 1, 1, 5, [[9]]);
+console.log(boards.length);
 let i = 0;
-let solutionDict : Board[][] = [];
+let solutionDict: Board[][] = [];
 solutionDict[0] = [];
-for(let board of boards) {
+for (let board of boards) {
     i++;
     let solution = solveBoard(board);
-    if(solution) {
+    if (solution) {
         let moves = solution.length - 1;
         solutionDict[moves] = solutionDict[moves] || [];
         solutionDict[moves].push(board);
     } else {
         solutionDict[0].push(board);
     }
-    if(i % 1000 === 0) {
-        console.log(i, boards.length, solutionDict.map((x, i) => i + ": " + x.length));
+    if (i % 1000 === 0) {
+        console.log(solutionDict.map((x, i) => i + ": " + x.length), i, boards.length);
     }
 }
 
-console.log("Best boards solution length: " + (solutionDict.length - 1));
-let bestBoards = solutionDict[solutionDict.length - 1];
-console.log(bestBoards.map(board => board.pieceMap.map(row => row.join("")).join("\n")).join("\n\n---\n\n"));
+let bestLength = solutionDict.length - 1;
+console.log("Best boards solution length: " + bestLength);
+let bestBoards = solutionDict[bestLength];
+console.log(bestBoards.map(board => '{   // found by computer \nboard: new Board([\n' + board.pieceMap.map(row => '"' + row.join("") + '"').join(",\n") + "\n]),\nmoves: " + bestLength + "\n},").join("\n"));
+
+ bestLength = solutionDict.length - 2;
+console.log("Best boards solution length: " + bestLength);
+ bestBoards = solutionDict[bestLength].slice(0, 10);
+console.log(bestBoards.map(board => '{   // found by computer \nboard: new Board([\n' + board.pieceMap.map(row => '"' + row.join("") + '"').join(",\n") + "\n]),\nmoves: " + bestLength + "\n},").join("\n"));
+
+bestLength = solutionDict.length - 3;
+console.log("Best boards solution length: " + bestLength);
+ bestBoards = solutionDict[bestLength].slice(0, 10);
+console.log(bestBoards.map(board => '{   // found by computer \nboard: new Board([\n' + board.pieceMap.map(row => '"' + row.join("") + '"').join(",\n") + "\n]),\nmoves: " + bestLength + "\n},").join("\n"));
