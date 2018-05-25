@@ -178,7 +178,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
         const rightIndex = isPortrait ? columns - 1 : rows - 1;
 
         let maxHeight, maxWidth;
-        let textHeight = puzzle.text ? 100 : 0;
+        let textHeight = puzzle.text ? 70 : 0;
         if (isPortrait) {
             maxHeight = (height - 150 - textHeight) / rows;
             maxWidth = width / columns;
@@ -187,7 +187,7 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
             maxWidth = (width - 64) / rows;
         }
         const squareWidth = Math.floor(Math.min(maxHeight, maxWidth));
-        return <View>
+        return <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%", height: "100%" }}>
             {
                 puzzle.text ?
                     <Text style={{ textAlign: "center", fontSize: 16, padding: 5, maxWidth: 400 }}>
@@ -214,17 +214,17 @@ export default class BoardView extends React.Component<BoardViewProperties, Boar
                         </View>
                     )
                 }
-                <VictoryModal isVisible={this.state.showVictoryModal}
-                    hide={this.hideVictoryModal.bind(this)}
-                    moveCount={this.state.moveCount}
-                    {...this.props} />
-
                 <ActionPanel
                     moveCount={this.state.moveCount}
                     isHorizontal={isPortrait}
                     onUndo={this.undo.bind(this)}
                     onReset={this.reset.bind(this)} />
+
             </View>
+            <VictoryModal isVisible={this.state.showVictoryModal}
+                hide={this.hideVictoryModal.bind(this)}
+                moveCount={this.state.moveCount}
+                {...this.props} />
         </View>
     }
 }

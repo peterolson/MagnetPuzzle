@@ -41,8 +41,6 @@ export default class GameView extends React.Component<GameViewProps> {
     render() {
         const { navigation } = this.props;
         const gameParams = navigation.state.params;
-        return <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%", height: "100%" }}>
-            <BoardView gameParams={gameParams} goBack={() => this.goBack()} goNextPuzzle={() => this.goNextPuzzle()} />
-        </View>
+        return <BoardView gameParams={gameParams} goBack={() => this.goBack()} goNextPuzzle={() => this.goNextPuzzle()} />
     }
 }
