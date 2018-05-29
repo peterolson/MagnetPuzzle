@@ -6,7 +6,8 @@
     "version": "0.1.0",
     "slug": "the-magnet-puzzle",
     "android": {
-      "package": "com.peterolson.magnetpuzzle"
+      "package": "com.peterolson.magnetpuzzle",
+      "permissions": []
     }
   }
 }
