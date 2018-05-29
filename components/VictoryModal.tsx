@@ -27,15 +27,15 @@ export default class VictoryModal extends React.Component<VictoryModalProps> {
     getStarImages(moveCount: number, bestMoveCount: number) {
         let starType = getStarType(moveCount, bestMoveCount);
         if (starType === StarType.Gold) {
-            return [<Image source={images.gold} key="g1" />,
-            <Image source={images.gold} key="g2" />,
-            <Image source={images.gold} key="g3" />]
+            return [<Image style={starIamge} source={images.gold} key="g1" />,
+            <Image style={starIamge} source={images.gold} key="g2" />,
+            <Image style={starIamge} source={images.gold} key="g3" />]
         }
         if (starType === StarType.Silver) {
-            return [<Image source={images.silver} key="s1" />,
-            <Image source={images.silver} key="s2" />];
+            return [<Image style={starIamge} source={images.silver} key="s1" />,
+            <Image style={starIamge} source={images.silver} key="s2" />];
         }
-        return <Image source={images.bronze} />
+        return <Image style={starIamge} source={images.bronze} />
     }
 
     render() {
@@ -47,10 +47,8 @@ export default class VictoryModal extends React.Component<VictoryModalProps> {
             <View style={backgroundStyle}>
                 <View style={modalStyle} >
                     <Text style={{ fontSize: 28, marginBottom: 5 }}>Congratulations!</Text>
-                    <Text style={subtitle}>You solved</Text>
-                    <Text style={[bold, subtitle]}>{name}</Text>
-                    <Text style={subtitle}> in </Text>
-                    <Text style={[bold, subtitle]}>{moveCount} {moveCount === 1 ? "move" : "moves"}</Text>
+                    <Text style={subtitle}>You solved <Text style={bold}>{name}</Text></Text>
+                    <Text style={subtitle}>in <Text style={bold}>{moveCount} {moveCount === 1 ? "move" : "moves"}</Text></Text>
                     <View style={{ flexDirection: "row" }}>
                         {this.getStarImages(moveCount, bestMoveCount)}
                     </View>
@@ -101,7 +99,8 @@ const modalStyle: any = {
     paddingRight: 20,
     borderRadius: 25,
     borderWidth: 1,
-    opacity: 1
+    opacity: 1,
+    zIndex: 999
 }
 
 const subtitle: any = {
@@ -121,8 +120,13 @@ const button: any = {
 }
 
 const image: any = {
-    height: 75,
-    width: 75
+    height: 65,
+    width: 65
+}
+
+const starIamge: any = {
+    height: 40,
+    width: 40
 }
 
 const label = {
