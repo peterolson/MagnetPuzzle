@@ -42,7 +42,7 @@ let puzzles: PuzzleList = {
             ]),
             moves: 2,
             name: "3 - Blocks",
-            text: "Blocks don't need to go home.\n Pieces can only move when pulled by another piece.\n People and blocks can pull each other."
+            text: "Blocks don't need to go home.\n Pieces move when pulled by other pieces.\n People and blocks can pull each other."
         },
         {
             board: new Board([
