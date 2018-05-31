@@ -92,19 +92,19 @@ describe("Solver", () => {
         ])
     };
     let solutionLengths : {[key: string] : number} = {
-        easy1: 4,
-        easy2: 5,
-        mod1: 6,
-        mod2: 8,
-        mod3: 9,
-        hard1: 12,
-        hard2: 13,
-        hard3: 9,
-        hard4: 14,
-        stagnant: 12,
-        electron: 15,
-        noCigar: 14,
-        row: 17
+        easy1: 3,
+        easy2: 4,
+        mod1: 5,
+        mod2: 7,
+        mod3: 8,
+        hard1: 11,
+        hard2: 12,
+        hard3: 8,
+        hard4: 13,
+        stagnant: 11,
+        electron: 14,
+        noCigar: 13,
+        row: 16
     };
 
     describe("finds solutions in the right number of moves", () => {

@@ -1,19 +1,25 @@
 import Board from "./lib/Board";
-import solveBoard from "./lib/SolveBoard";
+import solveBoard, {Solution} from "./lib/SolveBoard";
 import puzzles from "./lib/Puzzles";
 
 // verify that minimum move count is correct
-/*
+
 for(let difficulty in puzzles) {
     for(let puzzle of puzzles[difficulty]) {
         if(puzzle.board.stringRepresentation === '  S  S   SS   H  S  S   BS   S') continue;
         let solution = solveBoard(puzzle.board);
-        if(solution && puzzle.moves !== solution.length - 1) {
-            console.log("Expected", puzzle.moves, "Actual", solution.length - 1, puzzle.board);
+        console.log(puzzle.name, difficultyScore(solution));
+        if(solution && puzzle.moves !== solution.length) {
+            console.log("Expected", puzzle.moves, "Actual", solution.length, puzzle.board);
         }
+        
     }
 }
-*/
+
+function difficultyScore(solution : Solution) {
+    return (solution!.length / solution.moves[0].getPieceCount()) * Math.log(solution!.boardsExamined / solution!.solutionsFound)
+}
+
 
 function displaySolution(solution: Board[] | null) {
     if (solution) {
@@ -91,7 +97,7 @@ function generateBoards(width: number, height: number, homes: number, starts: nu
         return new Board(pieceMap);
     });
 }
-
+/*
 let boards = generateBoards(3, 6, 1, 1, 5, [[9]]);
 console.log(boards.length);
 let i = 0;
@@ -101,7 +107,7 @@ for (let board of boards) {
     i++;
     let solution = solveBoard(board);
     if (solution) {
-        let moves = solution.length - 1;
+        let moves = solution.length;
         solutionDict[moves] = solutionDict[moves] || [];
         solutionDict[moves].push(board);
     } else {
@@ -126,3 +132,4 @@ bestLength = solutionDict.length - 3;
 console.log("Best boards solution length: " + bestLength);
  bestBoards = solutionDict[bestLength].slice(0, 10);
 console.log(bestBoards.map(board => '{   // found by computer \nboard: new Board([\n' + board.pieceMap.map(row => '"' + row.join("") + '"').join(",\n") + "\n]),\nmoves: " + bestLength + "\n},").join("\n"));
+*/

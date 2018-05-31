@@ -27,21 +27,41 @@ class Move {
     }
 }
 
-export default function solveBoard(board: Board) {
+export interface Solution {
+    boardsExamined : number;
+    solutionsFound : number;
+    moves : Board[],
+    length: number
+}
 
+export default function solveBoard(board: Board) : Solution {
     let movesQueue = [new Move(board)];
     let encounteredMoves : {[key: string] : boolean} = {};
     encounteredMoves[board.stringRepresentation] = true;
-
-    while (movesQueue.length) {
-        let move = movesQueue.shift();
-
-        if (move!.isVictory()) {
-            return move!.history;
+    
+    let move;
+    let firstSolution : Board[] = [];
+    let firstSolutionMoves = 0;
+    let boardsExamined = 0;
+    let solutionsFound = 0;
+    while (move = movesQueue.shift()) {
+        boardsExamined++;
+        if (move.isVictory()) {
+            solutionsFound++;
+            if(solutionsFound === 1) {
+                firstSolution = move.history;
+                firstSolutionMoves = move.history.length - 1;
+            }
         }
-
-        movesQueue = movesQueue.concat(move!.getAllMoves(encounteredMoves));
+        if(solutionsFound < 1) {
+            movesQueue = movesQueue.concat(move.getAllMoves(encounteredMoves));
+        }
     }
 
-    return null;
+    return {
+        boardsExamined,
+        solutionsFound,
+        moves: firstSolution,
+        length: firstSolutionMoves
+    };
 }

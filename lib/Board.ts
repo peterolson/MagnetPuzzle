@@ -118,6 +118,38 @@ export default class Board {
         return this.stringRepresentation.indexOf(PieceType.Start) < 0;
     }
 
+    private getPieceCountByType() {
+        let counts = {
+            [PieceType.Blank]: 0,
+            [PieceType.Block]: 0,
+            [PieceType.Home]: 0,
+            [PieceType.Start]: 0,
+            [PieceType.Undefined]: 0
+        };
+        for(let row of this.pieceMap) {
+            for(let cell of row) {
+                counts[cell]++;
+            }
+        }
+        return counts;
+    }
+
+    public getBlockCount() {
+        return this.getPieceCountByType()[PieceType.Block];
+    }
+
+    public getStartCount() {
+        return this.getPieceCountByType()[PieceType.Start];
+    }
+
+    public getHomeCount() {
+        return this.getPieceCountByType()[PieceType.Home];
+    }
+
+    public getPieceCount() {
+        return this.getBlockCount() + this.getStartCount() + this.getHomeCount();
+    }
+
     public toString() {
         return this.stringRepresentation;
     }
