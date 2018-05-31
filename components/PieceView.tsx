@@ -7,7 +7,7 @@ export default class PieceView extends React.Component<{ pieceType: PieceType }>
     render() {
         const { pieceType } = this.props;
         return <Image
-            source={images[pieceType]}
+            source={(images as any)[pieceType]}
             style={{
                 width: "100%",
                 height: "100%"

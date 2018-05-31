@@ -1,6 +1,6 @@
 import { PieceType } from './../lib/Board';
 
-const images: { [key: string]: any } = {
+const images = {
     [PieceType.Block]: require("./block.png"),
     [PieceType.Start]: require("./start.png"),
     [PieceType.Home]: require("./home.png"),
