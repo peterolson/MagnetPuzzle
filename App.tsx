@@ -4,6 +4,7 @@ import PuzzleList from './components/PuzzleList';
 import GameView from './components/GameView';
 import { Button } from 'react-native-elements';
 let {createStackNavigator} = require('react-navigation');
+import images from './img/images';
 
 let titles = {
   learn: "Learn to Play",
@@ -21,7 +22,7 @@ class HomeScreen extends React.Component<{navigation: any}> {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View style={{ flexDirection: "row", width: "100%", height: 75 }}>
-          <Image source={require("./img/logo.png")} style={{flex: 1, width: undefined, height: undefined}} resizeMode="contain" />
+          <Image source={images.logo} style={{flex: 1, width: undefined, height: undefined}} resizeMode="contain" />
         </View>
         <Button title={titles.learn} buttonStyle={styles.button} color="#FFF"
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "learn", title: titles.learn})} />

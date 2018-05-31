@@ -1,10 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-
-const panelImages = {
-    undo: require("../img/undo.png"),
-    reset: require("../img/reset.png")
-}
+import images from '../img/images';
 
 interface ActionPanelProps {
     moveCount: number,
@@ -18,11 +14,11 @@ export default class ActionPanel extends React.Component<ActionPanelProps> {
         const { moveCount, isHorizontal, onUndo, onReset } = this.props;
         return <View style={{ flexDirection: isHorizontal ? "row" : "column", justifyContent: "center" }}>
             <TouchableOpacity style={styles.item} onPress={onReset}>
-                <Image source={panelImages.reset}></Image>
+                <Image source={images.reset}></Image>
                 <Text style={styles.label}>Reset</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.item} onPress={onUndo}>
-                <Image source={panelImages.undo}></Image>
+                <Image source={images.undo}></Image>
                 <Text style={styles.label}>Undo</Text>
             </TouchableOpacity>
             <View style={styles.item}>

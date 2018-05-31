@@ -4,15 +4,7 @@ import Modal from 'react-native-modal';
 import { Puzzle } from './../lib/Puzzles';
 import { StarType, addSolution, getStarType } from './../lib/SolutionStore';
 import { GameParams } from './GameView';
-
-const images = {
-    gold: require("../img/gold.png"),
-    silver: require("../img/silver.png"),
-    bronze: require("../img/bronze.png"),
-    up: require("../img/up.png"),
-    restart: require("../img/restart.png"),
-    next: require("../img/next.png")
-}
+import images from '../img/images';
 
 interface VictoryModalProps {
     isVisible: boolean,

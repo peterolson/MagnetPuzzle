@@ -3,21 +3,16 @@ import { ScrollView, Text, Image, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import puzzleList from './../lib/Puzzles';
 import { StarType, getSolution } from './../lib/SolutionStore';
-
-const images = {
-  gold: require("../img/goldsmall.png"),
-  silver: require("../img/silversmall.png"),
-  bronze: require("../img/bronzesmall.png")
-}
+import images from '../img/images';
 
 function getStarImages(starType: StarType | undefined): any {
   if (starType === StarType.Gold) {
-    return [<Image source={images.gold} key="g1" />, <Image source={images.gold} key="g2" />, <Image source={images.gold} key="g3" />]
+    return [<Image source={images.goldSmall} key="g1" />, <Image source={images.goldSmall} key="g2" />, <Image source={images.goldSmall} key="g3" />]
   }
   if (starType === StarType.Silver) {
-    return [<Image source={images.silver} key="s1" />, <Image source={images.silver} key="s2" />]
+    return [<Image source={images.silverSmall} key="s1" />, <Image source={images.silverSmall} key="s2" />]
   }
-  if (starType === StarType.Bronze) return <Image source={images.bronze} />
+  if (starType === StarType.Bronze) return <Image source={images.bronzeSmall} />
 }
 
 function moves(n: any) {
