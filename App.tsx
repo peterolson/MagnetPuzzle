@@ -10,7 +10,8 @@ let titles = {
   learn: "Learn to Play",
   easy: "Easy Puzzles",
   moderate: "Moderate Puzzles",
-  hard: "Hard Puzzles"
+  hard: "Hard Puzzles",
+  insane: "Insane Puzzles"
 }
 
 class HomeScreen extends React.Component<{navigation: any}> {
@@ -24,14 +25,16 @@ class HomeScreen extends React.Component<{navigation: any}> {
         <View style={{ flexDirection: "row", width: "100%", height: 75 }}>
           <Image source={images.logo} style={{flex: 1, width: undefined, height: undefined}} resizeMode="contain" />
         </View>
-        <Button title={titles.learn} buttonStyle={styles.button} color="#FFF"
+        <Button title={titles.learn} buttonStyle={[styles.button, {backgroundColor: "#88f"}]} color="#FFF"
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "learn", title: titles.learn})} />
-        <Button  title={titles.easy} buttonStyle={styles.button} color="#FFF"
+        <Button  title={titles.easy} buttonStyle={[styles.button, {backgroundColor: "#8a8"}]} color="#FFF"
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "easy", title: titles.easy})} />
-        <Button title={titles.moderate} buttonStyle={styles.button} color="#FFF"
+        <Button title={titles.moderate} buttonStyle={[styles.button, {backgroundColor: "#ff9"}]} color="#000"
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "moderate", title: titles.moderate})} />
-        <Button title={titles.hard} buttonStyle={styles.button} color="#FFF"
+        <Button title={titles.hard} buttonStyle={[styles.button, {backgroundColor: "#800"}]} color="#FFF"
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "hard", title: titles.hard})} />
+        <Button title={titles.insane} buttonStyle={styles.button} color="#FFF"
+          onPress={() => this.props.navigation.navigate("PuzzleList", {group: "insane", title: titles.insane})} />
       </View>
     );
   }
