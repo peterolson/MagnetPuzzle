@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Linking } from 'react-native';
 import PuzzleList from './components/PuzzleList';
 import GameView from './components/GameView';
 import { Button } from 'react-native-elements';
@@ -35,9 +35,19 @@ class HomeScreen extends React.Component<{navigation: any}> {
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "hard", title: titles.hard})} />
         <Button title={titles.insane} buttonStyle={styles.button} color="#FFF"
           onPress={() => this.props.navigation.navigate("PuzzleList", {group: "insane", title: titles.insane})} />
+        <Text style={{color: "#6060fa", textDecorationLine: "underline", marginTop: 20}} onPress={openPrivacyPolicyPage}>Privacy policy</Text>
       </View>
     );
   }
+}
+
+function openPrivacyPolicyPage() {
+  const url = "https://github.com/peterolson/MagnetPuzzle/wiki/The-Magnet-Puzzle:-Privacy-policy";
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      }
+    });
 }
 
 const styles = StyleSheet.create({
